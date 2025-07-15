@@ -13,7 +13,7 @@ const registerUser = async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-  if (secretKey !== process.env.SECRET_KEY) {
+  if (secretKey !== process.env.ADMIN_SECRET_KEY) {
     return res.status(403).json({ message: "INVALID ADMIN KEY" });
   }
 
