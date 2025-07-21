@@ -13,6 +13,7 @@ model User {
   name  String
   email String @unique
   password String
+  projects        Project[]  @relation("UserProjects")
   employee       Employee[] @relation("UserEmployee")
   resetToken String?
   resetTokenExpiry DateTime?
@@ -38,5 +39,7 @@ model Project {
   imageUrl    String?
   startDate   DateTime
   endDate     DateTime?
+  updatedBy   Int?
+  user        User?    @relation("UserProjects", fields: [updatedBy], references: [id])
   createdAt   DateTime @default(now())
 }
