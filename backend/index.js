@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-const clientRoutes = require('./routes/clientRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 
 const app = express();
 app.use(cors());
@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
   res.send('🚀 Broberg Consult Backend is Live');
 });
 
-app.use('/api/clients', clientRoutes);
+app.use('/api/projects', projectRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
