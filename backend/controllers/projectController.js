@@ -1,85 +1,171 @@
-const pool = require('../db');
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
 // Get all projects
 const getProjects = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM projects ORDER BY created_at DESC');
-    res.json(result.rows);
+    const projects = await prisma.project.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+    res.json(projects);
   } catch (err) {
-    console.error('Error fetching projects:', err);
-    res.status(500).json({ error: 'Server error while fetching projects' });
+    console.error("Error fetching projects:", err);
+    res.status(500).json({ error: "Server error while fetching projects" });
   }
 };
 
 // Get a single project by ID
 const getProjectById = async (req, res) => {
   const { id } = req.params;
+
+  if (isNaN(Number(id))) {
+    return res.status(400).json({ error: "Invalid project ID" });
+  }
+
   try {
-    const result = await pool.query('SELECT * FROM projects WHERE id = $1', [id]);
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Project not found' });
+    const project = await prisma.project.findUnique({
+      where: { id: Number(id) },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    if (!project) {
+      return res.status(404).json({ error: "Project not found" });
     }
-    res.json(result.rows[0]);
+
+    res.json(project);
   } catch (err) {
-    console.error('Error fetching project:', err);
-    res.status(500).json({ error: 'Server error while fetching project' });
+    console.error("Error fetching project:", err);
+    res.status(500).json({ error: "Server error while fetching project" });
   }
 };
 
 // Add a new project
-const addProject = async (req, res) => {
-  const { name_of_project, date, location, client_name, project_features, position_held, activities, funding, status } = req.body;
-  
+const createProject = async (req, res) => {
+  const userId = req.user?.userId;
+  if (!userId) {
+    return res.status(401).json({ message: "User not authenticated" });
+  }
+
+  const { name, clientName, description, imageUrl, startDate, endDate } =
+    req.body;
+
   // Validate required fields
-  if (!name_of_project) {
-    return res.status(400).json({ error: 'Project name is required' });
+  if (!name || !clientName || !startDate) {
+    return res.status(400).json({
+      error: "Project name, client name, and start date are required",
+    });
   }
 
   try {
-    const result = await pool.query(
-      `INSERT INTO projects (name_of_project, date, location, client_name, project_features, position_held, activities, funding, status, created_at, updated_at) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW(), NOW()) RETURNING *`,
-      [name_of_project, date, location, client_name, project_features, position_held, activities, funding, status || 'completed']
-    );
-    res.status(201).json(result.rows[0]);
+    const project = await prisma.project.create({
+      data: {
+        name,
+        clientName,
+        description,
+        imageUrl,
+        startDate: new Date(startDate),
+        endDate: endDate ? new Date(endDate) : null,
+        updatedBy: userId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    res.status(201).json({
+      message: "Project created successfully",
+      project,
+    });
   } catch (err) {
-    console.error('Error adding project:', err);
-    res.status(500).json({ error: 'Server error while adding project' });
+    console.error("Error adding project:", err);
+    res.status(500).json({ error: "Server error while adding project" });
   }
 };
 
 // Update an existing project
 const updateProject = async (req, res) => {
+  const userId = req.user?.userId;
+  if (!userId) {
+    return res.status(401).json({ message: "User not authenticated" });
+  }
+
   const { id } = req.params;
-  const { name_of_project, date, location, client_name, project_features, position_held, activities, funding, status } = req.body;
+  const { name, clientName, description, imageUrl, startDate, endDate } =
+    req.body;
+
+  if (isNaN(Number(id))) {
+    return res.status(400).json({ error: "Invalid project ID" });
+  }
 
   try {
     // Check if project exists
-    const existingProject = await pool.query('SELECT * FROM projects WHERE id = $1', [id]);
-    if (existingProject.rows.length === 0) {
-      return res.status(404).json({ error: 'Project not found' });
+    const existingProject = await prisma.project.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (!existingProject) {
+      return res.status(404).json({ error: "Project not found" });
     }
 
-    const result = await pool.query(
-      `UPDATE projects 
-       SET name_of_project = COALESCE($1, name_of_project), 
-           date = COALESCE($2, date), 
-           location = COALESCE($3, location), 
-           client_name = COALESCE($4, client_name), 
-           project_features = COALESCE($5, project_features), 
-           position_held = COALESCE($6, position_held), 
-           activities = COALESCE($7, activities), 
-           funding = COALESCE($8, funding), 
-           status = COALESCE($9, status), 
-           updated_at = NOW() 
-       WHERE id = $10 RETURNING *`,
-      [name_of_project, date, location, client_name, project_features, position_held, activities, funding, status, id]
-    );
-    
-    res.json(result.rows[0]);
+    // Prepare update data - only include fields that are provided
+    const updateData = {
+      updatedBy: userId,
+    };
+
+    if (name !== undefined) updateData.name = name;
+    if (clientName !== undefined) updateData.clientName = clientName;
+    if (description !== undefined) updateData.description = description;
+    if (imageUrl !== undefined) updateData.imageUrl = imageUrl;
+    if (startDate !== undefined) updateData.startDate = new Date(startDate);
+    if (endDate !== undefined)
+      updateData.endDate = endDate ? new Date(endDate) : null;
+
+    const updatedProject = await prisma.project.update({
+      where: { id: Number(id) },
+      data: updateData,
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    res.json({
+      message: "Project updated successfully",
+      project: updatedProject,
+    });
   } catch (err) {
-    console.error('Error updating project:', err);
-    res.status(500).json({ error: 'Server error while updating project' });
+    console.error("Error updating project:", err);
+    res.status(500).json({ error: "Server error while updating project" });
   }
 };
 
@@ -87,41 +173,120 @@ const updateProject = async (req, res) => {
 const deleteProject = async (req, res) => {
   const { id } = req.params;
 
+  if (isNaN(Number(id))) {
+    return res.status(400).json({ error: "Invalid project ID" });
+  }
+
   try {
     // Check if project exists
-    const existingProject = await pool.query('SELECT * FROM projects WHERE id = $1', [id]);
-    if (existingProject.rows.length === 0) {
-      return res.status(404).json({ error: 'Project not found' });
+    const existingProject = await prisma.project.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (!existingProject) {
+      return res.status(404).json({ error: "Project not found" });
     }
 
-    await pool.query('DELETE FROM projects WHERE id = $1', [id]);
-    res.json({ message: 'Project deleted successfully' });
+    await prisma.project.delete({
+      where: { id: Number(id) },
+    });
+
+    res.json({ message: "Project deleted successfully" });
   } catch (err) {
-    console.error('Error deleting project:', err);
-    res.status(500).json({ error: 'Server error while deleting project' });
+    console.error("Error deleting project:", err);
+    res.status(500).json({ error: "Server error while deleting project" });
   }
 };
 
 // Get projects by client name
 const getProjectsByClient = async (req, res) => {
   const { clientName } = req.params;
+
+  if (!clientName) {
+    return res.status(400).json({ error: "Client name is required" });
+  }
+
   try {
-    const result = await pool.query(
-      'SELECT * FROM projects WHERE client_name ILIKE $1 ORDER BY created_at DESC', 
-      [`%${clientName}%`]
-    );
-    res.json(result.rows);
+    const projects = await prisma.project.findMany({
+      where: {
+        clientName: {
+          contains: clientName,
+          mode: "insensitive", // Case-insensitive search
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    res.json(projects);
   } catch (err) {
-    console.error('Error fetching projects by client:', err);
-    res.status(500).json({ error: 'Server error while fetching projects by client' });
+    console.error("Error fetching projects by client:", err);
+    res
+      .status(500)
+      .json({ error: "Server error while fetching projects by client" });
+  }
+};
+
+// Get projects by date range
+const getProjectsByDateRange = async (req, res) => {
+  const { startDate, endDate } = req.query;
+
+  try {
+    const whereClause = {};
+
+    if (startDate) {
+      whereClause.startDate = {
+        gte: new Date(startDate),
+      };
+    }
+
+    if (endDate) {
+      whereClause.endDate = {
+        lte: new Date(endDate),
+      };
+    }
+
+    const projects = await prisma.project.findMany({
+      where: whereClause,
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    res.json(projects);
+  } catch (err) {
+    console.error("Error fetching projects by date range:", err);
+    res
+      .status(500)
+      .json({ error: "Server error while fetching projects by date range" });
   }
 };
 
 module.exports = {
   getProjects,
   getProjectById,
-  addProject,
+  createProject,
   updateProject,
   deleteProject,
   getProjectsByClient,
+  getProjectsByDateRange,
 };
