@@ -45,32 +45,41 @@ const loginUser = async (req, res) => {
   if (!email || !password) {
     return res.status(400).json({ message: "Email and password are required" });
   }
+  try {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
 
-  const user = await prisma.user.findUnique({
-    where: { email },
-  });
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
 
-  if (!user) {
-    return res.status(401).json({ message: "Invalid email or password" });
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    const token = jwt.sign(
+      { userId: user.id, email: user.email, isAdmin: user.isAdmin },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    return res.status(200).json({
+      message: "Login successful",
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
-
-  const isMatch = await bcrypt.compare(password, user.password);
-
-  if (!isMatch) {
-    return res.status(401).json({ message: "Invalid email or password" });
-  }
-
-  const token = jwt.sign(
-    { userId: user.id, email: user.email },
-    process.env.ACCESS_TOKEN_SECRET,
-    { expiresIn: "1h" }
-  );
-
-  return res.status(200).json({
-    message: "Login successful",
-    token,
-    user: { id: user.id, name: user.name, email: user.email },
-  });
 };
 
 // Forgot Password Controller
@@ -128,10 +137,11 @@ const resetPassword = async (req, res) => {
   try {
     const { token, newPassword } = req.body;
 
-    if (!token || !newPassword) {
-      return res
-        .status(400)
-        .json({ message: "Token and new password are required" });
+    if (!token) {
+      return res.status(400).json({ message: "Token is required" });
+    }
+    if (!newPassword) {
+      return res.status(400).json({ message: "New password is required" });
     }
 
     if (newPassword.length < 6) {

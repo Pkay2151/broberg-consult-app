@@ -5,9 +5,7 @@ const prisma = new PrismaClient();
 const getProjects = async (req, res) => {
   try {
     const projects = await prisma.project.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
+      // where: { isApproved: true }, // Only fetch approved projects
       include: {
         user: {
           select: {
@@ -17,8 +15,16 @@ const getProjects = async (req, res) => {
           },
         },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
-    res.json(projects);
+
+    res.json({
+      message: "Projects retrieved successfully",
+      count: projects.length,
+      projects,
+    });
   } catch (err) {
     console.error("Error fetching projects:", err);
     res.status(500).json({ error: "Server error while fetching projects" });
@@ -35,7 +41,7 @@ const getProjectById = async (req, res) => {
 
   try {
     const project = await prisma.project.findUnique({
-      where: { id: Number(id) },
+      where: { id: Number(id) }, // Only fetch approved project
       include: {
         user: {
           select: {
@@ -281,6 +287,194 @@ const getProjectsByDateRange = async (req, res) => {
   }
 };
 
+// Admin: Approve/Reject Project Status
+const updateProjectApprovalStatus = async (req, res) => {
+  const userId = req.user?.userId;
+  if (!userId) {
+    return res.status(401).json({ message: "User not authenticated" });
+  }
+
+  // Check if user is admin
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { isAdmin: true },
+    });
+
+    if (!user || !user.isAdmin) {
+      return res.status(403).json({
+        message: "Access denied. Admin privileges required.",
+      });
+    }
+
+    const { id } = req.params;
+    const { isApproved } = req.body;
+
+    if (isNaN(Number(id))) {
+      return res.status(400).json({ error: "Invalid project ID" });
+    }
+
+    if (typeof isApproved !== "boolean") {
+      return res.status(400).json({
+        error: "isApproved must be a boolean value (true or false)",
+      });
+    }
+
+    // Check if project exists
+    const existingProject = await prisma.project.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (!existingProject) {
+      return res.status(404).json({ error: "Project not found" });
+    }
+
+    // Update project approval status
+    const updatedProject = await prisma.project.update({
+      where: { id: Number(id) },
+      data: {
+        isApproved: isApproved,
+        updatedBy: userId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    const statusMessage = isApproved ? "approved" : "rejected";
+
+    res.json({
+      message: `Project ${statusMessage} successfully`,
+      project: updatedProject,
+    });
+  } catch (err) {
+    console.error("Error updating project approval status:", err);
+    res.status(500).json({
+      error: "Server error while updating project approval status",
+    });
+  }
+};
+
+// Get all projects with approval status filter (Admin only)
+const getProjectsByApprovalStatus = async (req, res) => {
+  const userId = req.user?.userId;
+  if (!userId) {
+    return res.status(401).json({ message: "User not authenticated" });
+  }
+
+  // Check if user is admin
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { isAdmin: true },
+    });
+
+    if (!user || !user.isAdmin) {
+      return res.status(403).json({
+        message: "Access denied. Admin privileges required.",
+      });
+    }
+
+    const { status } = req.query; // ?status=approved or ?status=pending
+
+    let whereClause = {};
+
+    if (status === "approved") {
+      whereClause.isApproved = true;
+    } else if (status === "pending") {
+      whereClause.isApproved = false;
+    }
+    // If no status specified, return all projects
+
+    const projects = await prisma.project.findMany({
+      where: whereClause,
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    res.json({
+      message: `Projects ${
+        status ? `with ${status} status` : "all"
+      } retrieved successfully`,
+      count: projects.length,
+      projects,
+    });
+  } catch (err) {
+    console.error("Error fetching projects by approval status:", err);
+    res.status(500).json({
+      error: "Server error while fetching projects by approval status",
+    });
+  }
+};
+
+// Helper function to check admin status (reusable)
+const checkAdminStatus = async (userId) => {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { isAdmin: true },
+  });
+  return user?.isAdmin || false;
+};
+
+const totalProjects = async (req, res) => {
+  try {
+    const totalProjects = await prisma.project.count({
+      where: { isApproved: true },
+    });
+    res.json({ total: totalProjects });
+  } catch (error) {
+    console.error("Error fetching total projects:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+const approveProject = async (req, res) => {
+  const { id } = req.params;
+
+  if (isNaN(Number(id))) {
+    return res.status(400).json({ error: "Invalid project ID" });
+  }
+
+  try {
+    const updatedProject = await prisma.project.update({
+      where: { id: Number(id) },
+      data: { isApproved: true },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    return res.json({
+      message: "Project approved successfully",
+      project: updatedProject,
+    });
+  } catch (error) {
+    console.error("Error approving project:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getProjects,
   getProjectById,
@@ -289,4 +483,9 @@ module.exports = {
   deleteProject,
   getProjectsByClient,
   getProjectsByDateRange,
+  updateProjectApprovalStatus,
+  getProjectsByApprovalStatus,
+  checkAdminStatus,
+  totalProjects,
+  approveProject,
 };

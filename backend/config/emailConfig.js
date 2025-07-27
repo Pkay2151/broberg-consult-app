@@ -15,7 +15,7 @@ const createTransporter = () => {
 const sendForgotPasswordEmail = async (email, resetToken) => {
   const transporter = createTransporter();
 
-  const resetUrl = `${process.env.FRONTEND_URL}api//auth/reset-password?token=${resetToken}`;
+  const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,

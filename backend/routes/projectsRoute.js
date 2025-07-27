@@ -1,20 +1,30 @@
 const express = require("express");
-const { Router } = express;
-const router = Router();
 
-const validateToken = require("../middleware/tokenVerification.js");
+const { uploadProject } = require("../middleware/upload.js");
+
 const {
-  createProject,
-  deleteProject,
   getProjects,
+  getProjectById,
+  createProject,
   updateProject,
+  deleteProject,
+  totalProjects,
+  approveProject,
 } = require("../controllers/projectController.js");
+const validateToken = require("../middleware/tokenVerification.js");
 
+const router = express.Router();
+
+// Public routes
 router.get("/view", getProjects);
 
-router.post("/create", validateToken, createProject);
+router.get("/total", totalProjects); // Add this before /:id to avoid conflicts
+router.get("/:id", getProjectById);
 
-router.put("/update/:id", validateToken, updateProject);
-router.delete("/delete/:id", validateToken, deleteProject);
+// // Protected routes with file upload
+router.patch("/approve/:id", validateToken, approveProject);
+router.post("/", validateToken, uploadProject, createProject);
+router.put("/:id", validateToken, uploadProject, updateProject);
+router.delete("/:id", validateToken, deleteProject);
 
 module.exports = router;
