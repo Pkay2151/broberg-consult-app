@@ -9,15 +9,14 @@ const ensureDirectoryExists = (dirPath) => {
   }
 };
 
-// Configure storage for employees
-const employeeStorage = multer.diskStorage({
+// Configure storage for projects
+const projectStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, "../uploads/employees");
+    const uploadPath = path.join(__dirname, "../uploads/projects");
     ensureDirectoryExists(uploadPath);
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
-    // Generate unique filename: timestamp_randomnumber.extension
     const uniqueName = `${Date.now()}_${Math.round(
       Math.random() * 1e9
     )}${path.extname(file.originalname)}`;
@@ -25,10 +24,10 @@ const employeeStorage = multer.diskStorage({
   },
 });
 
-// Configure storage for projects
-const projectStorage = multer.diskStorage({
+// Configure storage for employees (existing)
+const employeeStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, "../uploads/projects");
+    const uploadPath = path.join(__dirname, "../uploads/employees");
     ensureDirectoryExists(uploadPath);
     cb(null, uploadPath);
   },
@@ -67,6 +66,6 @@ const uploadProject = multer({
 });
 
 module.exports = {
-  uploadEmployee: uploadEmployee.single("image"), // 'image' is the field name in form
+  uploadEmployee: uploadEmployee.single("image"),
   uploadProject: uploadProject.single("image"),
 };

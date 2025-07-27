@@ -1,11 +1,12 @@
 const { PrismaClient } = require("@prisma/client");
+const path = require("path");
+const fs = require("fs");
 const prisma = new PrismaClient();
 
 // Get all projects
 const getProjects = async (req, res) => {
   try {
     const projects = await prisma.project.findMany({
-      // where: { isApproved: true }, // Only fetch approved projects
       include: {
         user: {
           select: {
@@ -41,7 +42,7 @@ const getProjectById = async (req, res) => {
 
   try {
     const project = await prisma.project.findUnique({
-      where: { id: Number(id) }, // Only fetch approved project
+      where: { id: Number(id) },
       include: {
         user: {
           select: {
@@ -64,15 +65,21 @@ const getProjectById = async (req, res) => {
   }
 };
 
-// Add a new project
+// Create a new project with image upload
 const createProject = async (req, res) => {
   const userId = req.user?.userId;
   if (!userId) {
     return res.status(401).json({ message: "User not authenticated" });
   }
 
-  const { name, clientName, description, imageUrl, startDate, endDate } =
-    req.body;
+  // 🔍 DEBUG: Log what we're receiving
+  console.log("=== PROJECT CREATION DEBUG ===");
+  console.log("req.body:", req.body);
+  console.log("req.file:", req.file);
+  console.log("Content-Type:", req.get("content-type"));
+  console.log("==============================");
+
+  const { name, clientName, description, startDate, endDate } = req.body;
 
   // Validate required fields
   if (!name || !clientName || !startDate) {
@@ -81,7 +88,18 @@ const createProject = async (req, res) => {
     });
   }
 
+  if (!req.file) {
+    return res.status(400).json({
+      message: "Project image is required",
+    });
+  }
+
   try {
+    // Generate the image URL
+    const imageUrl = `/uploads/projects/${req.file.filename}`;
+
+    console.log("Project image saved at:", imageUrl); // DEBUG
+
     const project = await prisma.project.create({
       data: {
         name,
@@ -108,12 +126,19 @@ const createProject = async (req, res) => {
       project,
     });
   } catch (err) {
+    // Delete uploaded file if database operation fails
+    if (req.file) {
+      fs.unlink(req.file.path, (deleteErr) => {
+        if (deleteErr) console.error("Error deleting file:", deleteErr);
+      });
+    }
+
     console.error("Error adding project:", err);
     res.status(500).json({ error: "Server error while adding project" });
   }
 };
 
-// Update an existing project
+// Update an existing project with optional image upload
 const updateProject = async (req, res) => {
   const userId = req.user?.userId;
   if (!userId) {
@@ -121,8 +146,7 @@ const updateProject = async (req, res) => {
   }
 
   const { id } = req.params;
-  const { name, clientName, description, imageUrl, startDate, endDate } =
-    req.body;
+  const { name, clientName, description, startDate, endDate } = req.body;
 
   if (isNaN(Number(id))) {
     return res.status(400).json({ error: "Invalid project ID" });
@@ -135,10 +159,16 @@ const updateProject = async (req, res) => {
     });
 
     if (!existingProject) {
+      // Delete uploaded file if project doesn't exist
+      if (req.file) {
+        fs.unlink(req.file.path, (err) => {
+          if (err) console.error("Error deleting file:", err);
+        });
+      }
       return res.status(404).json({ error: "Project not found" });
     }
 
-    // Prepare update data - only include fields that are provided
+    // Prepare update data
     const updateData = {
       updatedBy: userId,
     };
@@ -146,10 +176,30 @@ const updateProject = async (req, res) => {
     if (name !== undefined) updateData.name = name;
     if (clientName !== undefined) updateData.clientName = clientName;
     if (description !== undefined) updateData.description = description;
-    if (imageUrl !== undefined) updateData.imageUrl = imageUrl;
     if (startDate !== undefined) updateData.startDate = new Date(startDate);
     if (endDate !== undefined)
       updateData.endDate = endDate ? new Date(endDate) : null;
+
+    // Handle image update
+    if (req.file) {
+      // Delete old image file
+      if (existingProject.imageUrl) {
+        const oldImagePath = path.join(
+          __dirname,
+          "..",
+          existingProject.imageUrl
+        );
+        fs.unlink(oldImagePath, (err) => {
+          if (err && err.code !== "ENOENT") {
+            console.error("Error deleting old image:", err);
+          }
+        });
+      }
+
+      // Set new image URL
+      updateData.imageUrl = `/uploads/projects/${req.file.filename}`;
+      console.log("New project image saved at:", updateData.imageUrl); // DEBUG
+    }
 
     const updatedProject = await prisma.project.update({
       where: { id: Number(id) },
@@ -170,12 +220,19 @@ const updateProject = async (req, res) => {
       project: updatedProject,
     });
   } catch (err) {
+    // Delete uploaded file if database operation fails
+    if (req.file) {
+      fs.unlink(req.file.path, (deleteErr) => {
+        if (deleteErr) console.error("Error deleting file:", deleteErr);
+      });
+    }
+
     console.error("Error updating project:", err);
     res.status(500).json({ error: "Server error while updating project" });
   }
 };
 
-// Delete a project
+// Delete a project and associated image
 const deleteProject = async (req, res) => {
   const { id } = req.params;
 
@@ -184,18 +241,29 @@ const deleteProject = async (req, res) => {
   }
 
   try {
-    // Check if project exists
-    const existingProject = await prisma.project.findUnique({
+    // Get project to access image URL
+    const project = await prisma.project.findUnique({
       where: { id: Number(id) },
     });
 
-    if (!existingProject) {
+    if (!project) {
       return res.status(404).json({ error: "Project not found" });
     }
 
+    // Delete project from database
     await prisma.project.delete({
       where: { id: Number(id) },
     });
+
+    // Delete associated image file
+    if (project.imageUrl) {
+      const imagePath = path.join(__dirname, "..", project.imageUrl);
+      fs.unlink(imagePath, (err) => {
+        if (err && err.code !== "ENOENT") {
+          console.error("Error deleting image file:", err);
+        }
+      });
+    }
 
     res.json({ message: "Project deleted successfully" });
   } catch (err) {
@@ -217,7 +285,7 @@ const getProjectsByClient = async (req, res) => {
       where: {
         clientName: {
           contains: clientName,
-          mode: "insensitive", // Case-insensitive search
+          mode: "insensitive",
         },
       },
       orderBy: {
@@ -294,7 +362,6 @@ const updateProjectApprovalStatus = async (req, res) => {
     return res.status(401).json({ message: "User not authenticated" });
   }
 
-  // Check if user is admin
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -320,7 +387,6 @@ const updateProjectApprovalStatus = async (req, res) => {
       });
     }
 
-    // Check if project exists
     const existingProject = await prisma.project.findUnique({
       where: { id: Number(id) },
     });
@@ -329,7 +395,6 @@ const updateProjectApprovalStatus = async (req, res) => {
       return res.status(404).json({ error: "Project not found" });
     }
 
-    // Update project approval status
     const updatedProject = await prisma.project.update({
       where: { id: Number(id) },
       data: {
@@ -368,7 +433,6 @@ const getProjectsByApprovalStatus = async (req, res) => {
     return res.status(401).json({ message: "User not authenticated" });
   }
 
-  // Check if user is admin
   try {
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -381,7 +445,7 @@ const getProjectsByApprovalStatus = async (req, res) => {
       });
     }
 
-    const { status } = req.query; // ?status=approved or ?status=pending
+    const { status } = req.query;
 
     let whereClause = {};
 
@@ -390,7 +454,6 @@ const getProjectsByApprovalStatus = async (req, res) => {
     } else if (status === "pending") {
       whereClause.isApproved = false;
     }
-    // If no status specified, return all projects
 
     const projects = await prisma.project.findMany({
       where: whereClause,
@@ -423,7 +486,7 @@ const getProjectsByApprovalStatus = async (req, res) => {
   }
 };
 
-// Helper function to check admin status (reusable)
+// Helper function to check admin status
 const checkAdminStatus = async (userId) => {
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -443,6 +506,7 @@ const totalProjects = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 const approveProject = async (req, res) => {
   const { id } = req.params;
 
