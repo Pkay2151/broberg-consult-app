@@ -73,107 +73,107 @@ const loginUser = async (req, res) => {
   });
 };
 
-// Forgot Password Controller
-const forgotPassword = async (req, res) => {
-  try {
-    const { email } = req.body;
+// // Forgot Password Controller
+// const forgotPassword = async (req, res) => {
+//   try {
+//     const { email } = req.body;
 
-    if (!email) {
-      return res.status(400).json({ message: "Email is required" });
-    }
+//     if (!email) {
+//       return res.status(400).json({ message: "Email is required" });
+//     }
 
-    // Check if user exists
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+//     // Check if user exists
+//     const user = await prisma.user.findUnique({
+//       where: { email },
+//     });
 
-    if (!user) {
-      return res
-        .status(404)
-        .json({ message: "User with this email does not exist" });
-    }
+//     if (!user) {
+//       return res
+//         .status(404)
+//         .json({ message: "User with this email does not exist" });
+//     }
 
-    // Generate reset token
-    const resetToken = crypto.randomBytes(32).toString("hex");
-    const resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour from now
+//     // Generate reset token
+//     const resetToken = crypto.randomBytes(32).toString("hex");
+//     const resetTokenExpiry = new Date(Date.now() + 3600000); // 1 hour from now
 
-    // Update user with reset token
-    await prisma.user.update({
-      where: { email },
-      data: {
-        resetToken,
-        resetTokenExpiry,
-      },
-    });
+//     // Update user with reset token
+//     await prisma.user.update({
+//       where: { email },
+//       data: {
+//         resetToken,
+//         resetTokenExpiry,
+//       },
+//     });
 
-    // Send email
-    const emailSent = await sendForgotPasswordEmail(email, resetToken);
+//     // Send email
+//     const emailSent = await sendForgotPasswordEmail(email, resetToken);
 
-    if (!emailSent) {
-      return res.status(500).json({ message: "Failed to send reset email" });
-    }
+//     if (!emailSent) {
+//       return res.status(500).json({ message: "Failed to send reset email" });
+//     }
 
-    res.status(200).json({
-      message:
-        "Password reset email sent successfully. Please check your email.",
-    });
-  } catch (error) {
-    console.error("Forgot password error:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
+//     res.status(200).json({
+//       message:
+//         "Password reset email sent successfully. Please check your email.",
+//     });
+//   } catch (error) {
+//     console.error("Forgot password error:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
 
-// Reset Password Controller
-const resetPassword = async (req, res) => {
-  try {
-    const { token, newPassword } = req.body;
+// // Reset Password Controller
+// const resetPassword = async (req, res) => {
+//   try {
+//     const { token, newPassword } = req.body;
 
-    if (!token || !newPassword) {
-      return res
-        .status(400)
-        .json({ message: "Token and new password are required" });
-    }
+//     if (!token || !newPassword) {
+//       return res
+//         .status(400)
+//         .json({ message: "Token and new password are required" });
+//     }
 
-    if (newPassword.length < 6) {
-      return res
-        .status(400)
-        .json({ message: "Password must be at least 6 characters long" });
-    }
+//     if (newPassword.length < 6) {
+//       return res
+//         .status(400)
+//         .json({ message: "Password must be at least 6 characters long" });
+//     }
 
-    // Find user with valid reset token
-    const user = await prisma.user.findFirst({
-      where: {
-        resetToken: token,
-        resetTokenExpiry: {
-          gte: new Date(), // Token should not be expired
-        },
-      },
-    });
+//     // Find user with valid reset token
+//     const user = await prisma.user.findFirst({
+//       where: {
+//         resetToken: token,
+//         resetTokenExpiry: {
+//           gte: new Date(), // Token should not be expired
+//         },
+//       },
+//     });
 
-    if (!user) {
-      return res
-        .status(400)
-        .json({ message: "Invalid or expired reset token" });
-    }
+//     if (!user) {
+//       return res
+//         .status(400)
+//         .json({ message: "Invalid or expired reset token" });
+//     }
 
-    // Hash new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+//     // Hash new password
+//     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Update password and clear reset token
-    await prisma.user.update({
-      where: { id: user.id },
-      data: {
-        password: hashedPassword,
-        resetToken: null,
-        resetTokenExpiry: null,
-      },
-    });
+//     // Update password and clear reset token
+//     await prisma.user.update({
+//       where: { id: user.id },
+//       data: {
+//         password: hashedPassword,
+//         resetToken: null,
+//         resetTokenExpiry: null,
+//       },
+//     });
 
-    res.status(200).json({ message: "Password reset successfully" });
-  } catch (error) {
-    console.error("Reset password error:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
+//     res.status(200).json({ message: "Password reset successfully" });
+//   } catch (error) {
+//     console.error("Reset password error:", error);
+//     res.status(500).json({ message: "Internal server error" });
+//   }
+// };
 
-module.exports = { registerUser, forgotPassword, resetPassword,loginUser };
+module.exports = { registerUser, loginUser };
