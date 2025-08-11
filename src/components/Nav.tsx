@@ -6,7 +6,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   return (
     <motion.nav
-      className="w-full flex items-center justify-between px-6 py-3 bg-gray-900 bg-opacity-60 shadow-md backdrop-blur-sm relative z-20"
+      className="w-full flex items-center justify-between px-6 py-4 bg-black/20 backdrop-blur-md relative z-20 border-b border-white/10"
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{
@@ -43,11 +43,11 @@ export default function Navbar() {
       </button>
       {/* Navigation Links */}
       <ul
-        className={`flex-col md:flex-row md:flex space-y-6 md:space-y-0 md:space-x-6 absolute md:static top-full right-0 left-0 md:left-auto bg-gray-900 bg-opacity-90 md:bg-opacity-0 backdrop-blur-sm md:backdrop-blur-0 px-6 text-center md:px-0 py-6 md:py-0 transition-all duration-300 ease-in-out ${
-          menuOpen ? "flex" : "hidden md:flex"
+        className={`list-none bgflex-col md:flex-row md:flex space-y-6 md:space-y-0 md:space-x-6 absolute md:static top-full right-0 left-0 md:left-auto bg-black/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-0 px-6 text-center md:px-0 py-6 md:py-0 transition-all duration-300 ease-in-out ${
+          menuOpen ? "flex-col" : "hidden md:flex"
         }`}
       >
-        <li className="">
+        <li className="opacity-0">
           <a
             href="/"
             className="text-white hover:text-blue-400 font-medium transition block"

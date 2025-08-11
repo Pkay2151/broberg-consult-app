@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import Navbar from "./Nav";
 
 const images = [
-  "/src/assets/bg1.png",
-  "/src/assets/bg2.png",
-  "/src/assets/bg3.png",
-  "/src/assets/bg4.png",
+  "/src/assets/project1.svg",
+  "/src/assets/project2.svg",
+  "/src/assets/project3.svg",
+  "/src/assets/project4.svg",
 ];
 
 const HeroSection = () => {
@@ -19,13 +20,18 @@ const HeroSection = () => {
 
   return (
     <div
-      className="relative min-h-screen flex flex-col justify-between bg-cover bg-center transition-all duration-700"
+      className="relative min-h-screen flex flex-col bg-cover bg-center transition-all duration-700"
       style={{ backgroundImage: `url('${images[current]}')` }}
     >
+      {/* Transparent Navbar at the top */}
+      <div className="absolute top-0 left-0 w-full z-30 fixed">
+        <Navbar />
+      </div>
+
       {/* Overlay for better text visibility */}
       <div className="absolute inset-0 bg-black/40 z-0 transition-all duration-700" />
       {/* Hero Content */}
-      <div className="relative flex flex-1 flex-col items-center justify-center text-center px-4 z-10 min-h-[70vh]">
+      <div className="relative flex flex-1 flex-col items-center justify-center text-center px-4 z-10 min-h-[70vh] pt-20">
         <h1 className="text-white font-extrabold text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 drop-shadow-lg leading-tight max-w-3xl mx-auto">
           You are asked for the best.
           <br />
@@ -40,7 +46,7 @@ const HeroSection = () => {
           </span>
         </h1>
         <a
-          href="#projects"
+          href="/projects"
           className="inline-block mt-6 px-8 py-3 bg-[#3A619C] hover:bg-blue-800 text-white font-semibold rounded-full text-lg shadow-lg transition"
         >
           See our Projects
