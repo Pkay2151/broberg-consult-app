@@ -43,11 +43,11 @@ export default function Navbar() {
       </button>
       {/* Navigation Links */}
       <ul
-        className={`list-none bgflex-col md:flex-row md:flex space-y-6 md:space-y-0 md:space-x-6 absolute md:static top-full right-0 left-0 md:left-auto bg-black/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-0 px-6 text-center md:px-0 py-6 md:py-0 transition-all duration-300 ease-in-out ${
+        className={`flex-col md:flex-row md:flex space-y-6 md:space-y-0 md:space-x-6 absolute md:static top-full right-0 left-0 md:left-auto bg-black/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-0 px-6 text-center md:px-0 py-6 md:py-0 transition-all duration-300 ease-in-out ${
           menuOpen ? "flex-col" : "hidden md:flex"
         }`}
       >
-        <li className="opacity-0">
+        <li className="">
           <a
             href="/"
             className="text-white hover:text-blue-400 font-medium transition block"
