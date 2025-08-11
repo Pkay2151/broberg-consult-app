@@ -14,12 +14,14 @@ import ResetPassword from "../pages/ResetPassword";
 import Employee from "../pages/Admin/Employee";
 import ProtectRoutes from "../pages/ProtectRoutes";
 import Project from "../pages/Admin/Project";
+import Projects from "../pages/Projects";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/projects" element={<Projects />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
