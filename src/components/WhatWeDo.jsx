@@ -133,7 +133,7 @@ const WhatWeDo = () => {
               whileHover={{ scale: 1.05, y: -5 }}
             >
               <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center">
-                <ClipboardList className="w-10 h-10 text-blue-600" />
+                <ClipboardList className="w-10 h-10 text-[#3A619C]" />
               </div>
               <h3 className="text-xl font-bold text-[#3A619C] mb-4">
                 Project Management
@@ -155,9 +155,9 @@ const WhatWeDo = () => {
               whileHover={{ scale: 1.05, y: -5 }}
             >
               <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center">
-                <Building className="w-10 h-10 text-blue-600" />
+                <Building className="w-10 h-10 text-[#3A619C]" />
               </div>
-              <h3 className="text-xl font-bold text-blue-800 mb-4">
+              <h3 className="text-xl font-bold text-[#3A619C] mb-4">
                 Civil Engineering
               </h3>
               <p className="text-gray-600 leading-relaxed">
@@ -176,7 +176,7 @@ const WhatWeDo = () => {
               whileHover={{ scale: 1.05, y: -5 }}
             >
               <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center">
-                <Hammer className="w-10 h-10 text-blue-600" />
+                <Hammer className="w-10 h-10 text-[#3A619C]" />
               </div>
               <h3 className="text-xl font-bold text-[#3A619C] mb-4">
                 Structural Engineering

@@ -11,10 +11,11 @@ const ProjectCard = ({ project, onEdit, onDelete, onView }) => {
     return isApproved ? "success" : "warning";
   };
 
+
   const getStatusText = (isApproved) => {
     return isApproved ? "Approved" : "Pending Approval";
   };
-  console.log("project.isApproved:", project.isApproved);
+
   return (
     <>
       <td className="px-3 py-4">

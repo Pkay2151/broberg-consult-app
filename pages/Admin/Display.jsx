@@ -28,8 +28,7 @@ const Display = () => {
         const activeEmployees = await pendingAPI.activeEmployees();
         const totalProjects = await pendingAPI.totalProjects();
         setPendingProjects(pendingProjectsData);
-        console.log("Pending Project Approvals:", pendingProjectsData);
-
+        
         // Update stats (you can fetch these from separate API endpoints)
         setStats({
           totalProjects: totalProjects.total || 0,

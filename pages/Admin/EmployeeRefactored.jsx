@@ -1,202 +1,276 @@
 import React, { useState } from "react";
-import { getUserFromToken } from "../../util/auth";
-import EmployeeHeader from "../../src/components/employee/EmployeeHeader";
-import EmployeeFilters from "../../src/components/employee/EmployeeFilters";
-import EmployeeTable from "../../src/components/employee/EmployeeTable";
-import EmployeeDialog from "../../src/components/EmployeeDialog";
-import DeleteConfirmationDialog from "../../src/components/DeleteConfirmationDialog";
-import { useEmployees } from "../../src/hooks/useEmployees";
-import { useEmployeeFilters } from "../../src/hooks/useEmployeeFilters";
-import { DIALOG_TYPES } from "../../src/constants/employee";
+import { X, Save, Camera, CheckCircle } from "lucide-react";
+import { toast } from "react-toastify";
 
-const Employee = () => {
-  // State for dialogs
-  const [showDialog, setShowDialog] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [dialogType, setDialogType] = useState("");
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+const EmployeeDialog = ({
+  isOpen,
+  onClose,
+  dialogType,
+  selectedEmployee,
+  onSubmit,
+  onApprove,
+  loading,
+  user,
+}) => {
+  const [formData, setFormData] = useState({
+    name: selectedEmployee?.name || "",
+    position: selectedEmployee?.position || "",
+    imageUrl: selectedEmployee?.imageUrl || "",
+    imageFile: null,
+    hasNewImage: false,
+  });
+  const [imageUploading, setImageUploading] = useState(false);
 
-  // Get user info
-  const user = getUserFromToken();
-  console.log("Current user:", user);
-
-  // Custom hooks for data and filtering
-  const {
-    employees,
-    loading,
-    createEmployee,
-    updateEmployee,
-    deleteEmployee,
-    approveEmployee,
-  } = useEmployees();
-
-  const {
-    searchTerm,
-    setSearchTerm,
-    filterPosition,
-    setFilterPosition,
-    uniquePositions,
-    filteredEmployees,
-  } = useEmployeeFilters(employees);
-
-  // Dialog management
-  const openDialog = (type, employee = null) => {
-    console.log("Opening dialog:", {
-      type,
-      employee,
-      userIsAdmin: user?.isAdmin,
-    });
-    setDialogType(type);
-    setSelectedEmployee(employee);
-
-    if (type === DIALOG_TYPES.DELETE) {
-      setShowDeleteDialog(true);
-    } else {
-      setShowDialog(true);
+  // Reset form data when dialog opens/closes or selectedEmployee changes
+  React.useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        name: selectedEmployee?.name || "",
+        position: selectedEmployee?.position || "",
+        imageUrl: selectedEmployee?.imageUrl || "",
+        imageFile: null,
+        hasNewImage: false,
+      });
     }
-  };
+  }, [isOpen, selectedEmployee]);
 
-  const closeDialog = () => {
-    setShowDialog(false);
-    setShowDeleteDialog(false);
-    setDialogType("");
-    setSelectedEmployee(null);
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  // Event handlers
-  const handleAddEmployee = () => {
-    openDialog(DIALOG_TYPES.CREATE);
-  };
+    // Basic validation
+    if (!formData.name.trim() || !formData.position.trim()) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
 
-  const handleEditEmployee = (employee) => {
-    openDialog(DIALOG_TYPES.UPDATE, employee);
-  };
+    // Check if we need an image for a new employee
+    if (
+      dialogType === "create" &&
+      !formData.hasNewImage &&
+      !formData.imageUrl
+    ) {
+      toast.error("Please upload an image for the new employee");
+      return;
+    }
 
-  const handleDeleteEmployee = (employee) => {
-    openDialog(DIALOG_TYPES.DELETE, employee);
-  };
-
-  const handleSubmit = async (formData) => {
+ 
+    setImageUploading(true);
     try {
-      // Check if we have a new image file to upload
-      if (formData.imageFile && formData.hasNewImage) {
-        console.log("Creating FormData for file upload...");
-
-        // Create FormData object for Multer
-        const employeeFormData = new FormData();
-        employeeFormData.append("name", formData.name);
-        employeeFormData.append("position", formData.position);
-        employeeFormData.append("image", formData.imageFile);
-
-        if (user?.userId) {
-          employeeFormData.append("updatedBy", user.userId.toString());
-        }
-
-        if (dialogType === DIALOG_TYPES.CREATE) {
-          await createEmployee(employeeFormData);
-        } else if (dialogType === DIALOG_TYPES.UPDATE) {
-          await updateEmployee(selectedEmployee.id, employeeFormData);
-        }
-      } else {
-        console.log("No new image, sending JSON data...");
-
-        // No new image, send as JSON with existing image URL or default
-        let finalImageUrl = formData.imageUrl;
-
-        if (!finalImageUrl) {
-          finalImageUrl =
-            "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face";
-        }
-
-        const employeeData = {
-          name: formData.name,
-          position: formData.position,
-          imageUrl: finalImageUrl,
-          updatedBy: user?.userId,
-        };
-
-        if (dialogType === DIALOG_TYPES.CREATE) {
-          await createEmployee(employeeData);
-        } else if (dialogType === DIALOG_TYPES.UPDATE) {
-          await updateEmployee(selectedEmployee.id, employeeData);
-        }
-      }
-
-      closeDialog();
+      await onSubmit(formData);
     } catch (error) {
-      // Error handling is done in the custom hook
-      console.error("Submit error:", error);
+      console.error("Submit error in dialog:", error);
+    } finally {
+      setImageUploading(false);
     }
   };
 
-  const handleDelete = async () => {
+  const handleApprove = async () => {
+    if (!selectedEmployee) return;
+
+    setImageUploading(true);
     try {
-      await deleteEmployee(selectedEmployee.id);
-      closeDialog();
+      await onApprove(selectedEmployee.id);
+      onClose(); // Close dialog after approval
     } catch (error) {
-      // Error handling is done in the custom hook
-      console.error("Delete error:", error);
+      console.error("Approve error in dialog:", error);
+    } finally {
+      setImageUploading(false);
     }
   };
 
-  const handleApprove = async (employeeId) => {
-    try {
-      await approveEmployee(employeeId);
-      closeDialog();
-    } catch (error) {
-      // Error handling is done in the custom hook
-      console.error("Approve error:", error);
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      processImageFile(file);
     }
   };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file) {
+      processImageFile(file);
+    }
+  };
+
+  const processImageFile = (file) => {
+    // Validate file type
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select a valid image file");
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image size should be less than 5MB");
+      return;
+    }
+
+    // Store the file and create preview URL
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setFormData({
+        ...formData,
+        imageFile: file,
+        imageUrl: e.target.result, // For preview only
+        hasNewImage: true, // Flag to indicate a new image was uploaded
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  if (!isOpen) return null;
+
+  // Debug logging for approve button visibility
+ 
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
-      <div className="flex-1 p-6">
-        {/* Header */}
-        <EmployeeHeader onAddEmployee={handleAddEmployee} />
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        {/* Dialog Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <h3 className="text-xl font-semibold text-gray-900">
+            {dialogType === "create" && "Add New Employee"}
+            {dialogType === "update" && "Update Employee"}
+          </h3>
+          <button
+            onClick={onClose}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
 
-        {/* Filters */}
-        <EmployeeFilters
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-          filterPosition={filterPosition}
-          onFilterChange={setFilterPosition}
-          positions={uniquePositions}
-        />
+        {/* Dialog Content */}
+        <div className="p-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Profile Picture Upload */}
+            <div className="text-center">
+              <div
+                className="relative inline-block border-2 border-dashed border-gray-300 rounded-full p-1 hover:border-blue-400 transition-colors"
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+              >
+                <img
+                  src={
+                    formData.imageUrl ||
+                    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
+                  }
+                  alt="Profile"
+                  className="w-24 h-24 rounded-full object-cover border-4 border-gray-200"
+                />
+                <label className="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full cursor-pointer hover:bg-blue-700 transition-colors">
+                  <Camera className="w-4 h-4 text-white" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                </label>
+                {imageUploading && (
+                  <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                  </div>
+                )}
+              </div>
+              <p className="text-sm text-gray-500 mt-2">
+                Click the camera icon or drag & drop to upload a profile picture
+              </p>
+              <p className="text-xs text-gray-400">
+                Max file size: 5MB. Supported formats: JPG, PNG, GIF
+              </p>
+            </div>
 
-        {/* Employee Table */}
-        <EmployeeTable
-          employees={filteredEmployees}
-          loading={loading}
-          onEditEmployee={handleEditEmployee}
-          onDeleteEmployee={handleDeleteEmployee}
-        />
+            {/* Form Fields */}
+            <div className="grid grid-cols-1 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter employee name"
+                />
+              </div>
 
-        {/* Dialogs */}
-        <EmployeeDialog
-          isOpen={showDialog}
-          onClose={closeDialog}
-          dialogType={dialogType}
-          selectedEmployee={selectedEmployee}
-          onSubmit={handleSubmit}
-          onApprove={handleApprove}
-          loading={loading}
-          user={user}
-        />
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Position *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.position}
+                  onChange={(e) =>
+                    setFormData({ ...formData, position: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="e.g., Senior Developer, Project Manager"
+                />
+              </div>
+            </div>
 
-        <DeleteConfirmationDialog
-          isOpen={showDeleteDialog}
-          onClose={closeDialog}
-          onConfirm={handleDelete}
-          loading={loading}
-          title="Delete Employee"
-          message="Are you sure you want to delete this employee?"
-          itemName={selectedEmployee?.name}
-          confirmText="Delete Employee"
-        />
+            {/* Form Actions */}
+            <div className="flex space-x-3 pt-4">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Cancel
+              </button>
+
+              {/* Approve button - only show for admin users and when updating existing employees that are not approved */}
+              {user?.isAdmin &&
+                dialogType === "update" &&
+                selectedEmployee &&
+                !selectedEmployee.isApproved && (
+                  <button
+                    type="button"
+                    onClick={handleApprove}
+                    disabled={loading || imageUploading}
+                    className="flex-1 flex items-center justify-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
+                  >
+                    <CheckCircle className="w-4 h-4" />
+                    <span>
+                      {imageUploading || loading ? "Processing..." : "Approve"}
+                    </span>
+                  </button>
+                )}
+
+              <button
+                type="submit"
+                disabled={loading || imageUploading}
+                className="flex-1 flex items-center justify-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+              >
+                <Save className="w-4 h-4" />
+                <span>
+                  {imageUploading
+                    ? "Uploading Image..."
+                    : loading
+                    ? "Saving..."
+                    : dialogType === "create"
+                    ? "Add Employee"
+                    : "Update Employee"}
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Employee;
+export default EmployeeDialog;

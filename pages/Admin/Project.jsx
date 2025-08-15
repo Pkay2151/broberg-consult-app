@@ -20,7 +20,7 @@ const Project = () => {
 
   // Get user info
   const user = getUserFromToken();
-  console.log("Current user:", user);
+ 
 
   // Custom hooks for data and filtering
   const {
@@ -45,11 +45,7 @@ const Project = () => {
 
   // Dialog management
   const openDialog = (type, project = null) => {
-    console.log("Opening dialog:", {
-      type,
-      project,
-      userIsAdmin: user?.isAdmin,
-    });
+ 
     setDialogType(type);
     setSelectedProject(project);
 
@@ -86,16 +82,8 @@ const Project = () => {
 
   const handleSubmit = async (formData) => {
     try {
-      console.log("Project.jsx - handleSubmit received formData:", formData);
-      console.log("Project.jsx - formData keys:", Object.keys(formData));
-      console.log("Project.jsx - name value:", formData.name);
-      console.log("Project.jsx - clientName value:", formData.clientName);
-      console.log("Project.jsx - has image file:", !!formData.imageFile);
-      console.log("Project.jsx - has new image:", formData.hasNewImage);
-
-      // Always create FormData for file uploads since we require images
-      console.log("Creating FormData for project submission...");
-
+  
+  
       const projectFormData = new FormData();
       projectFormData.append("name", formData.name);
       projectFormData.append("clientName", formData.clientName);
@@ -106,22 +94,13 @@ const Project = () => {
       // Add image file (required for new projects)
       if (formData.imageFile) {
         projectFormData.append("image", formData.imageFile);
-        console.log("Image file added to FormData:", formData.imageFile.name);
+      
       }
 
       // Add user info if available
       if (user?.userId) {
         projectFormData.append("updatedBy", user.userId.toString());
       }
-
-      console.log("Project.jsx - Final FormData contents:");
-      for (let [key, value] of projectFormData.entries()) {
-        console.log(
-          `${key}:`,
-          value instanceof File ? `File: ${value.name}` : value
-        );
-      }
-
       if (dialogType === PROJECT_DIALOG_TYPES.CREATE) {
         await createProject(projectFormData);
       } else if (dialogType === PROJECT_DIALOG_TYPES.UPDATE) {

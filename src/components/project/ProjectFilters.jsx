@@ -49,8 +49,8 @@ const ProjectFilters = ({
             className="w-full pl-10 pr-8 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none bg-white text-sm sm:text-base"
           >
             <option value="">All Clients</option>
-            {clients.map((client) => (
-              <option key={client} value={client}>
+            {clients.map((client, id) => (
+              <option key={id} value={client}>
                 {client}
               </option>
             ))}

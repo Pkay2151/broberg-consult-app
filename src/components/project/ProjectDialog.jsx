@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { X, Save, Camera, CheckCircle, FolderOpen } from "lucide-react";
 import { toast } from "react-toastify";
 import { validateFile, fileToBase64 } from "../../utils/fileUtils";
+import { getImageUrlWithFallback } from "../../utils/imageUtils";
 
 const ProjectDialog = ({
   isOpen,
@@ -49,15 +50,6 @@ const ProjectDialog = ({
     }
   }, [isOpen, selectedProject]);
 
-  // Debug logging for approve button visibility
-  console.log("ProjectDialog Debug:", {
-    isOpen,
-    dialogType,
-    selectedProject: selectedProject?.id,
-    userIsAdmin: user?.isAdmin,
-    shouldShowApprove:
-      user?.isAdmin && dialogType === "update" && selectedProject,
-  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,14 +70,10 @@ const ProjectDialog = ({
       return;
     }
 
-    console.log("ProjectDialog - Form submitted with data:", formData);
-    console.log("ProjectDialog - Has image file:", !!formData.imageFile);
-    console.log("ProjectDialog - Has new image:", formData.hasNewImage);
-
     setImageUploading(true);
     try {
       await onSubmit(formData);
-      console.log("Project submitted successfully, closing dialog");
+    
       onClose(); // Close dialog on success
     } catch (error) {
       console.error("Submit error in dialog:", error);
@@ -129,8 +117,7 @@ const ProjectDialog = ({
   };
 
   const processImageFile = async (file) => {
-    console.log("Processing image file:", file.name, file.size, file.type);
-
+ 
     const validation = validateFile(file);
 
     if (!validation.isValid) {
@@ -140,8 +127,7 @@ const ProjectDialog = ({
 
     try {
       const imageUrl = await fileToBase64(file);
-      console.log("Image converted to base64, size:", imageUrl.length);
-
+   
       setFormData((prev) => ({
         ...prev,
         imageFile: file,
@@ -149,12 +135,24 @@ const ProjectDialog = ({
         hasNewImage: true,
       }));
 
-      console.log("Form data updated with new image");
+    
       toast.success("Image uploaded successfully!");
     } catch (error) {
       toast.error("Failed to process image file");
       console.error("Image processing error:", error);
     }
+  };
+
+  // Determine which image URL to display for the project image:
+  // - Use data URLs (preview) directly
+  // - Use absolute URLs directly
+  // - Otherwise, pass through getImageUrlWithFallback to build backend URL or placeholder
+  const getDisplayImageSrc = () => {
+    const { imageUrl } = formData;
+    if (!imageUrl) return getImageUrlWithFallback(null, "project");
+    if (imageUrl.startsWith("data:")) return imageUrl;
+    if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) return imageUrl;
+    return getImageUrlWithFallback(imageUrl, "project");
   };
 
   if (!isOpen) return null;
@@ -191,12 +189,13 @@ const ProjectDialog = ({
                 onDrop={handleDrop}
               >
                 <img
-                  src={
-                    formData.imageUrl ||
-                    "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=300&h=200&fit=crop"
-                  }
+                  src={getDisplayImageSrc()}
                   alt="Project"
                   className="w-full h-32 object-cover rounded-lg border-2 border-gray-200"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = getImageUrlWithFallback(null, "project");
+                  }}
                 />
                 <label className="absolute bottom-2 right-2 bg-blue-600 p-2 rounded-full cursor-pointer hover:bg-blue-700 transition-colors">
                   <Camera className="w-4 h-4 text-white" />

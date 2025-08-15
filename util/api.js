@@ -81,7 +81,7 @@ export const authAPI = {
         body: JSON.stringify(credentials),
       });
 
-      console.log("API Response:", data); // Debug the full response
+     
 
       // Store token if login successful - check multiple possible token property names
       const token = data.token || data.accessToken || data.authToken;
@@ -166,33 +166,23 @@ export const projectsAPI = {
   // Create new project
   createproject: async (projectData) => {
     try {
-      console.log("Creating project with data:", projectData); // Debug log
-
+    
       // Check if this is FormData (for file uploads) or regular object
       if (projectData instanceof FormData) {
-        console.log("Sending FormData to backend..."); // Debug log
-        // Log FormData contents for debugging
-        for (let [key, value] of projectData.entries()) {
-          console.log(
-            `FormData field - ${key}:`,
-            value instanceof File ? `File: ${value.name}` : value
-          );
-        }
-
         const result = await apiRequest("/projects/create", {
           method: "POST",
           headers: {}, // Don't set Content-Type for FormData - let browser set it
           body: projectData,
         });
-        console.log("Project created successfully:", result); // Debug log
+        
         return result;
       } else {
-        console.log("Sending JSON data to backend..."); // Debug log
+        
         const result = await apiRequest("/projects/create", {
           method: "POST",
           body: JSON.stringify(projectData),
         });
-        console.log("Project created successfully:", result); // Debug log
+      
         return result;
       }
     } catch (error) {
@@ -205,33 +195,23 @@ export const projectsAPI = {
   // Update project
   update: async (id, projectData) => {
     try {
-      console.log("Updating project with data:", projectData); // Debug log
-
+     
       // Check if this is FormData (for file uploads) or regular object
       if (projectData instanceof FormData) {
-        console.log("Sending FormData to backend for update..."); // Debug log
-        // Log FormData contents for debugging
-        for (let [key, value] of projectData.entries()) {
-          console.log(
-            `FormData field - ${key}:`,
-            value instanceof File ? `File: ${value.name}` : value
-          );
-        }
-
         const result = await apiRequest(`/projects/update/${id}`, {
           method: "PUT",
           headers: {}, // Don't set Content-Type for FormData - let browser set it
           body: projectData,
         });
-        console.log("Project updated successfully:", result); // Debug log
+
         return result;
       } else {
-        console.log("Sending JSON data to backend for update..."); // Debug log
+      
         const result = await apiRequest(`/projects/update/${id}`, {
           method: "PUT",
           body: JSON.stringify(projectData),
         });
-        console.log("Project updated successfully:", result); // Debug log
+       
         return result;
       }
     } catch (error) {
@@ -480,9 +460,9 @@ export const employeeAPI = {
   // Get all employees
   getAllEmployees: async () => {
     try {
-      console.log("Fetching all employees..."); // Debug log
+     
       const result = await apiRequest("/employees/view");
-      console.log("Employees fetched successfully:", result); // Debug log
+     
       return result;
     } catch (error) {
       console.error("Failed to fetch employees:", error); // Debug log
@@ -504,30 +484,25 @@ export const employeeAPI = {
   // Create new employee with proper FormData for Multer
   createEmployee: async (employeeData) => {
     try {
-      console.log("Creating employee with data:", employeeData); // Debug log
-
+    
       // Check if this is FormData (for file uploads) or regular object
       if (employeeData instanceof FormData) {
-        console.log("Sending FormData to backend..."); // Debug log
         // Log FormData contents for debugging
-        for (let [key, value] of employeeData.entries()) {
-          console.log(`FormData field - ${key}:`, value);
-        }
+      
 
         const result = await apiRequest("/employees/create", {
           method: "POST",
           headers: {}, // Don't set Content-Type for FormData - let browser set it
           body: employeeData,
         });
-        console.log("Employee created successfully:", result); // Debug log
-        return result;
+      
       } else {
-        console.log("Sending JSON data to backend..."); // Debug log
+       
         const result = await apiRequest("/employees/create", {
           method: "POST",
           body: JSON.stringify(employeeData),
         });
-        console.log("Employee created successfully:", result); // Debug log
+       
         return result;
       }
     } catch (error) {
@@ -555,30 +530,24 @@ export const employeeAPI = {
   // Update employee with proper FormData for Multer
   updateEmployee: async (employeeId, employeeData) => {
     try {
-      console.log("Updating employee with data:", employeeData); // Debug log
-
+    
       // Check if this is FormData (for file uploads) or regular object
       if (employeeData instanceof FormData) {
-        console.log("Sending FormData to backend for update..."); // Debug log
-        // Log FormData contents for debugging
-        for (let [key, value] of employeeData.entries()) {
-          console.log(`FormData field - ${key}:`, value);
-        }
-
+       
         const result = await apiRequest(`/employees/update/${employeeId}`, {
           method: "PUT",
           headers: {}, // Don't set Content-Type for FormData - let browser set it
           body: employeeData,
         });
-        console.log("Employee updated successfully:", result); // Debug log
+      
         return result;
       } else {
-        console.log("Sending JSON data to backend for update..."); // Debug log
+       
         const result = await apiRequest(`/employees/update/${employeeId}`, {
           method: "PUT",
           body: JSON.stringify(employeeData),
         });
-        console.log("Employee updated successfully:", result); // Debug log
+      
         return result;
       }
     } catch (error) {

@@ -23,7 +23,7 @@ export const getUserFromToken = () => {
 // Check if current user is admin
 export const isUserAdmin = () => {
   const user = getUserFromToken();
-  console.log(user.isAdmin);
+
   return user?.isAdmin || false;
 };
 

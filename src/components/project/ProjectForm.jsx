@@ -53,15 +53,13 @@ const ProjectForm = ({
       ...prev,
       [name]: value,
     }));
-    console.log(`Form field ${name} updated to:`, value);
+   
   };
 
   // Handle file input change
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
-    console.log("File selected:", file.name, file.size, file.type);
 
     const validation = validateFile(file);
     if (!validation.isValid) {
@@ -78,7 +76,6 @@ const ProjectForm = ({
       setImagePreview(base64Url);
       setHasNewImage(true);
 
-      console.log("Image processed successfully");
       toast.success("Image uploaded successfully!");
     } catch (error) {
       console.error("Image processing error:", error);
@@ -92,11 +89,7 @@ const ProjectForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("ProjectForm - Form submitted");
-    console.log("ProjectForm - Current formData:", formData);
-    console.log("ProjectForm - Image file:", imageFile);
-    console.log("ProjectForm - Has new image:", hasNewImage);
-
+  
     // Validation
     if (!formData.name.trim()) {
       toast.error("Project name is required");
@@ -131,8 +124,7 @@ const ProjectForm = ({
       hasNewImage: hasNewImage,
     };
 
-    console.log("ProjectForm - Submitting data:", submissionData);
-
+  
     try {
       await onSubmit(submissionData);
       onClose();

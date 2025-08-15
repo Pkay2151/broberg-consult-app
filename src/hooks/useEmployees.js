@@ -13,15 +13,13 @@ export const useEmployees = () => {
 
     try {
       const employeesData = await employeeAPI.getAllEmployees();
-      console.log("Employees API Response:", employeesData);
-
+      
       let employeeArray = [];
 
       if (Array.isArray(employeesData) && employeesData.length > 0) {
         // Map the API response to handle field name variations
         employeeArray = employeesData.map((employee) => {
-          console.log("Raw employee data from API:", employee);
-
+       
           return {
             id: employee.id,
             name: employee.name,
@@ -81,7 +79,6 @@ export const useEmployees = () => {
         },
       ];
 
-      console.log("Using mock data:", mockEmployees);
       setEmployees(mockEmployees);
     } finally {
       setLoading(false);

@@ -149,13 +149,13 @@ const TopClient = () => {
                   title={client.name}
                 >
                   {/* Fallback text if image doesn't load */}
-                  <div className="w-full h-full flex items-center justify-center text-xs font-semibold text-gray-400">
+                  {/* <div className="w-full h-full flex items-center justify-center text-xs font-semibold text-gray-400">
                     {client.name
                       .split(" ")
                       .map((word) => word[0])
                       .join("")
                       .slice(0, 3)}
-                  </div>
+                  </div> */}
                 </div>
               </div>
 

@@ -34,19 +34,16 @@ const ProjectTable = ({
       </div>
     );
   }
-  console.log(
-    "Projects status:",
-    projects.map((project) => project.status)
-  );
+
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
       {/* Mobile Card View - Hidden on larger screens */}
       <div className="block lg:hidden">
         <div className="space-y-4 p-4">
-          {projects.map((project) => (
+          {projects.map((project, id) => (
             <div
-              key={project.id}
+              key={id}
               className="bg-gray-50 rounded-lg p-4 space-y-3"
             >
               <div className="flex items-center justify-between">
@@ -133,8 +130,8 @@ const ProjectTable = ({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {projects.map((project) => (
-              <tr key={project.id} className="group hover:bg-gray-50">
+            {projects.map((project, id) => (
+              <tr key={id} className="group hover:bg-gray-50">
                 <ProjectCard
                   project={project}
                   onEdit={onEditProject}

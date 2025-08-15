@@ -13,8 +13,7 @@ export const useProjects = () => {
 
     try {
       const projectsData = await projectsAPI.getAllproject();
-      console.log("Projects API Response:", projectsData);
-
+    
       // Handle the API response structure - check if data is in projects.projects array
       let projectsArray = [];
 
@@ -31,8 +30,7 @@ export const useProjects = () => {
       // Map the API response to match component expectations (camelCase)
       const mappedProjects = projectsArray.map((project) => {
         // Debug log to see what fields are available
-        console.log("Raw project data from API:", project);
-
+      
         return {
           id: project.id,
           name: project.name,
@@ -51,11 +49,11 @@ export const useProjects = () => {
         };
       });
 
-      console.log("Mapped projects data:", mappedProjects);
+ 
       setProjects(mappedProjects);
 
       if (mappedProjects.length === 0) {
-        console.log("No projects found, using mock data");
+      
         // Use mock data if no projects returned
         const mockProjects = [
           {
@@ -143,7 +141,6 @@ export const useProjects = () => {
         },
       ];
 
-      //   console.log("Using mock data:", mockProjects);
       setProjects(mockProjects);
     } finally {
       setLoading(false);
@@ -154,38 +151,21 @@ export const useProjects = () => {
     try {
       setLoading(true);
 
-      console.log("useProjects - Creating project with data:", projectData);
-      console.log("useProjects - ProjectData keys:", Object.keys(projectData));
-      console.log(
-        "useProjects - Is FormData:",
-        projectData instanceof FormData
-      );
+    
 
       // Project.jsx already creates FormData, so just pass it through
       const result = await projectsAPI.createproject(projectData);
-      console.log("Project created successfully:", result);
-
+   
       setProjects((prevProjects) => {
         const updatedProjects = Array.isArray(prevProjects)
           ? [...prevProjects, result]
           : [result];
-        console.log("Updated projects list:", updatedProjects);
         return updatedProjects;
       });
 
       toast.success("Project added successfully!");
       return result;
 
-      //   setProjects((prevProjects) => {
-      //     const updatedProjects = Array.isArray(prevProjects)
-      //       ? [...prevProjects, result]
-      //       : [result];
-      //     console.log("Updated projects list:", updatedProjects);
-      //     return updatedProjects;
-      //   });
-
-      //   toast.success("Project added successfully!");
-      //   return result;
     } catch (error) {
       console.error("Error creating project:", error);
       toast.error(`Failed to create project: ${error.message}`);
@@ -199,16 +179,11 @@ export const useProjects = () => {
     try {
       setLoading(true);
 
-      console.log("useProjects - Updating project with data:", projectData);
-      console.log(
-        "useProjects - Is FormData:",
-        projectData instanceof FormData
-      );
+   
 
       // Project.jsx already creates FormData, so just pass it through
       const updatedProject = await projectsAPI.update(projectId, projectData);
-      console.log("Project updated successfully:", updatedProject);
-
+     
       setProjects((prevProjects) =>
         Array.isArray(prevProjects)
           ? prevProjects.map((project) =>

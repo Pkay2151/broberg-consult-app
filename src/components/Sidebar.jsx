@@ -25,12 +25,12 @@ const Sidebar = () => {
       path: "/admin/projects",
       active: window.location.pathname.includes("Project"),
     },
-    // {
-    //   icon: Users,
-    //   label: "Employees",
-    //   path: "/admin/employees",
-    //   active: window.location.pathname.includes("Employee"),
-    // },
+    {
+      icon: Users,
+      label: "Employees",
+      path: "/admin/employees",
+      active: window.location.pathname.includes("Employee"),
+    },
     // {
     //   icon: BarChart3,
     //   label: "Analytics",

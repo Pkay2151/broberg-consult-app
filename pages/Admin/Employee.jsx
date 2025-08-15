@@ -20,16 +20,14 @@ const Employee = () => {
   const [loading, setLoading] = useState(false);
 
   const user = getUserFromToken();
-  console.log("Current user:", user); // Debug log
-
+ 
   // Fetch employees from API
   useEffect(() => {
     const fetchEmployees = async () => {
       setLoading(true);
       try {
         const employeesData = await employeeAPI.getAllEmployees();
-        console.log("API Response:", employeesData); // Debug log
-
+     
         // Ensure we have an array and it's not empty
         const employeeArray =
           Array.isArray(employeesData) && employeesData.length > 0
@@ -78,7 +76,6 @@ const Employee = () => {
             updatedAt: "2023-03-10T00:00:00Z",
           },
         ];
-        console.log("Using mock data:", mockEmployees); // Debug log
         setEmployees(mockEmployees);
         setFilteredEmployees(mockEmployees);
       } finally {
@@ -91,10 +88,7 @@ const Employee = () => {
 
   // Filter employees based on search and position filter
   useEffect(() => {
-    console.log("Filtering employees. Current employees:", employees); // Debug log
-
     if (!Array.isArray(employees)) {
-      console.log("Employees is not an array, setting filtered to empty"); // Debug log
       setFilteredEmployees([]);
       return;
     }
@@ -107,24 +101,19 @@ const Employee = () => {
           emp.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
           emp.position.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      console.log("After search filter:", filtered); // Debug log
+    
     }
 
     if (filterPosition) {
       filtered = filtered.filter((emp) => emp.position === filterPosition);
-      console.log("After position filter:", filtered); // Debug log
+      
     }
 
-    console.log("Final filtered employees:", filtered); // Debug log
     setFilteredEmployees(filtered);
   }, [employees, searchTerm, filterPosition]);
 
   const openDialog = (type, employee = null) => {
-    console.log("Opening dialog:", {
-      type,
-      employee,
-      userIsAdmin: user?.isAdmin,
-    }); // Debug log
+  
     setDialogType(type);
     setSelectedEmployee(employee);
 
@@ -146,12 +135,9 @@ const Employee = () => {
     setLoading(true);
 
     try {
-      console.log("Form data received:", formData); // Debug log
-
       // Check if we have a new image file to upload
       if (formData.imageFile && formData.hasNewImage) {
-        console.log("Creating FormData for file upload..."); // Debug log
-
+      
         // Create FormData object for Multer
         const employeeFormData = new FormData();
         employeeFormData.append("name", formData.name);
@@ -162,31 +148,24 @@ const Employee = () => {
           employeeFormData.append("updatedBy", user.userId.toString());
         }
 
-        console.log("FormData created with file:", formData.imageFile); // Debug log
-
         if (dialogType === "create") {
-          console.log("Creating new employee with image..."); // Debug log
           const newEmployee = await employeeAPI.createEmployee(
             employeeFormData
           );
-          console.log("New employee created:", newEmployee); // Debug log
 
           setEmployees((prevEmployees) => {
             const updatedEmployees = Array.isArray(prevEmployees)
               ? [...prevEmployees, newEmployee]
               : [newEmployee];
-            console.log("Updated employees list:", updatedEmployees); // Debug log
             return updatedEmployees;
           });
           toast.success("Employee added successfully!");
         } else if (dialogType === "update") {
-          console.log("Updating employee with image..."); // Debug log
           const updatedEmployee = await employeeAPI.updateEmployee(
             selectedEmployee.id,
             employeeFormData
           );
-          console.log("Employee updated:", updatedEmployee); // Debug log
-
+      
           setEmployees((prevEmployees) =>
             Array.isArray(prevEmployees)
               ? prevEmployees.map((emp) =>
@@ -197,8 +176,7 @@ const Employee = () => {
           toast.success("Employee updated successfully!");
         }
       } else {
-        console.log("No new image, sending JSON data..."); // Debug log
-
+     
         // No new image, send as JSON with existing image URL or default
         let finalImageUrl = formData.imageUrl;
 
@@ -215,28 +193,24 @@ const Employee = () => {
           updatedBy: user?.userId,
         };
 
-        console.log("Sending employee data:", employeeData); // Debug log
-
+    
         if (dialogType === "create") {
-          console.log("Creating new employee without image..."); // Debug log
-          const newEmployee = await employeeAPI.createEmployee(employeeData);
-          console.log("New employee created:", newEmployee); // Debug log
 
+          const newEmployee = await employeeAPI.createEmployee(employeeData);
+        
           setEmployees((prevEmployees) => {
             const updatedEmployees = Array.isArray(prevEmployees)
               ? [...prevEmployees, newEmployee]
               : [newEmployee];
-            console.log("Updated employees list:", updatedEmployees); // Debug log
+           
             return updatedEmployees;
           });
           toast.success("Employee added successfully!");
         } else if (dialogType === "update") {
-          console.log("Updating employee without image..."); // Debug log
           const updatedEmployee = await employeeAPI.updateEmployee(
             selectedEmployee.id,
             employeeData
           );
-          console.log("Employee updated:", updatedEmployee); // Debug log
 
           setEmployees((prevEmployees) =>
             Array.isArray(prevEmployees)
@@ -304,7 +278,9 @@ const Employee = () => {
 
   const uniquePositions = [
     ...new Set(
-      (Array.isArray(employees) ? employees : []).map((emp) => emp.position)
+      (Array.isArray(employees) ? employees : [])
+        .map((emp) => emp?.position)
+        .filter(Boolean)
     ),
   ];
 
@@ -403,34 +379,36 @@ const Employee = () => {
                   </thead>
                   <tbody className="divide-y divide-gray-200">
                     {Array.isArray(filteredEmployees) &&
-                      filteredEmployees.map((employee) => (
+                      filteredEmployees
+                        .filter(Boolean)
+                        .map((employee) => (
                         <tr
-                          key={employee.id}
+                          key={employee?.id || Math.random()}
                           className="hover:bg-gray-50 transition-colors"
                         >
                           <td className="p-4">
                             <div className="flex items-center space-x-3">
                               <img
                                 src={getImageUrlWithFallback(
-                                  employee.imageUrl,
+                                  employee?.imageUrl,
                                   "avatar"
                                 )}
-                                alt={employee.name}
+                                alt={employee?.name || 'Employee'}
                                 className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
                               />
                               <div>
                                 <p className="font-medium text-gray-900">
-                                  {employee.name}
+                                  {employee?.name || "-"}
                                 </p>
                                 <p className="text-sm text-gray-500">
-                                  ID: {employee.id}
+                                  ID: {employee?.id ?? "-"}
                                 </p>
                               </div>
                             </div>
                           </td>
                           <td className="p-4">
                             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                              {employee.position}
+                              {employee?.position || "-"}
                             </span>
                           </td>
                           <td className="p-4">
@@ -447,10 +425,14 @@ const Employee = () => {
                             </span>
                           </td>
                           <td className="p-4 text-gray-900">
-                            {new Date(employee.createdAt).toLocaleDateString()}
+                            {employee?.createdAt
+                              ? new Date(employee.createdAt).toLocaleDateString()
+                              : "-"}
                           </td>
                           <td className="p-4 text-gray-900">
-                            {new Date(employee.updatedAt).toLocaleDateString()}
+                            {employee?.updatedAt
+                              ? new Date(employee.updatedAt).toLocaleDateString()
+                              : "-"}
                           </td>
                           <td className="p-4">
                             <div className="flex space-x-2">

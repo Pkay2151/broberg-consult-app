@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { X, Save, Camera, CheckCircle } from "lucide-react";
 import { toast } from "react-toastify";
+import { getImageUrlWithFallback } from "../utils/imageUtils";
 
 const EmployeeDialog = ({
   isOpen,
@@ -53,8 +54,7 @@ const EmployeeDialog = ({
       return;
     }
 
-    console.log("EmployeeDialog - Form submitted with data:", formData); // Debug log
-
+ 
     setImageUploading(true);
     try {
       await onSubmit(formData);
@@ -124,17 +124,21 @@ const EmployeeDialog = ({
     reader.readAsDataURL(file);
   };
 
+  // Determine which image URL to display:
+  // - If the preview is a data URL (from an uploaded file), use it directly.
+  // - If imageUrl is an absolute URL, use it directly.
+  // - Otherwise, pass it through getImageUrlWithFallback to build a full URL or placeholder.
+  const getDisplayImageSrc = () => {
+    const { imageUrl } = formData;
+    if (!imageUrl) return getImageUrlWithFallback(imageUrl, "avatar");
+    if (imageUrl.startsWith("data:")) return imageUrl; // preview from FileReader
+    if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) return imageUrl;
+    // fallback to helper which will prefix backend URL or return placeholder
+    return getImageUrlWithFallback(imageUrl, "avatar");
+  };
+
   if (!isOpen) return null;
 
-  // Debug logging for approve button visibility
-  console.log("EmployeeDialog Debug:", {
-    isOpen,
-    dialogType,
-    selectedEmployee: selectedEmployee?.id,
-    userIsAdmin: user?.isAdmin,
-    shouldShowApprove:
-      user?.isAdmin && dialogType === "update" && selectedEmployee,
-  });
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -164,13 +168,16 @@ const EmployeeDialog = ({
                 onDrop={handleDrop}
               >
                 <img
-                  src={
-                    formData.imageUrl ||
-                    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
-                  }
+                  src={getDisplayImageSrc()}
                   alt="Profile"
                   className="w-24 h-24 rounded-full object-cover border-4 border-gray-200"
+                  onError={(e) => {
+                    // If the image fails to load (404, blocked, etc.), replace with placeholder
+                    e.currentTarget.onerror = null; // prevent infinite loop
+                    e.currentTarget.src = getImageUrlWithFallback(null, "avatar");
+                  }}
                 />
+                {console.debug && console.debug('EmployeeDialog - image src ->', getDisplayImageSrc())}
                 <label className="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full cursor-pointer hover:bg-blue-700 transition-colors">
                   <Camera className="w-4 h-4 text-white" />
                   <input

@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../src/components/Nav";
 import Footer from "../src/components/Footer";
+import { projectsAPI } from "../util/api";
+import { toast } from "react-toastify";
+import { getImageUrlWithFallback } from "../src/utils/imageUtils";
 
 // Sample project data
 const sampleProjects = [
@@ -192,6 +195,8 @@ const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [showImageGallery, setShowImageGallery] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [uploadedProjects, setUploadedProjects] = useState([]);
+  const [uploadedLoading, setUploadedLoading] = useState(false);
 
   const openModal = (project) => {
     setSelectedProject(project);
@@ -234,6 +239,35 @@ const Projects = () => {
   const goToImage = (index) => {
     setCurrentImageIndex(index);
   };
+
+  // Fetch uploaded projects from API and keep only approved ones
+  useEffect(() => {
+    let mounted = true;
+    const fetchUploaded = async () => {
+      setUploadedLoading(true);
+      try {
+        const data = await projectsAPI.getAllproject();
+
+        // normalize response shapes
+        let projectsArray = [];
+        if (Array.isArray(data)) projectsArray = data;
+        else if (data && Array.isArray(data.projects)) projectsArray = data.projects;
+
+        const approved = projectsArray.filter((p) => p && p.isApproved === true);
+        if (mounted) setUploadedProjects(approved);
+      } catch (err) {
+        console.error("Failed to fetch uploaded projects:", err);
+        toast.error("Unable to load uploaded projects");
+      } finally {
+        if (mounted) setUploadedLoading(false);
+      }
+    };
+
+    fetchUploaded();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -322,6 +356,53 @@ const Projects = () => {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Uploaded Projects (from admin uploads) */}
+        <div className="mt-12">
+
+          {uploadedLoading ? (
+            <div className="text-center py-8">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+              <p className="text-gray-500 mt-2">Loading uploaded projects...</p>
+            </div>
+          ) : uploadedProjects && uploadedProjects.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {uploadedProjects.map((project) => (
+                <div key={project.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                  <div className="h-48 bg-gray-200 overflow-hidden">
+                    <img
+                      src={getImageUrlWithFallback(project.imageUrl || project.image, 'project')}
+                      alt={project.title}
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/src/assets/react.svg';
+                        e.currentTarget.className = 'w-full h-full object-contain p-8 bg-gray-100';
+                      }}
+                    />
+                  </div>
+                  <div className="p-6">
+                    <div className="flex justify-between items-start mb-3">
+                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${project.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+                        {project.status || 'N/A'}
+                      </span>
+                      <span className="text-sm text-gray-500">{project.year || ''}</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{project.title}</h3>
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-3 space-y-1 sm:space-y-0">
+                      <p className="text-sm text-gray-600">{project.location || '-'}</p>
+                      <span className="px-2 py-1 bg-[#3A619C] text-white text-xs rounded-md">{project.field || ''}</span>
+                    </div>
+                    <p className="text-gray-600 text-sm leading-relaxed">{project.description}</p>
+                    <button onClick={() => openModal(project)} className="mt-4 w-full bg-white hover:bg-[#3A619C] text-[#3A619C] hover:text-white border-2 border-[#3A619C] py-2 px-4 rounded-lg transition-colors duration-200 font-medium">View Details</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500">No uploaded projects approved yet.</p>
+          )}
         </div>
       </main>
 

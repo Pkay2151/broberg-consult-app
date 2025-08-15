@@ -23,7 +23,7 @@ const ResetPassword = () => {
     // Get token from URL params
     const urlParams = new URLSearchParams(window.location.search);
     const resetToken = urlParams.get("token");
-    console.log(resetToken);
+
     localStorage.setItem("resetToken", resetToken);
     if (resetToken) {
       setToken(resetToken);
@@ -35,9 +35,7 @@ const ResetPassword = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    console.log("Form data:", data); // Debug form data
-    console.log("Token:", token); // Debug token
-
+  
     // Try different field name variations the backend might expect
     const resetData = {
       token: token,
@@ -47,7 +45,6 @@ const ResetPassword = () => {
       confirmNewPassword: data.confirmPassword, // Alternative field name
     };
 
-    console.log("Sending to API:", resetData); // Debug API data
 
     try {
       await authAPI.resetPassword(resetData);

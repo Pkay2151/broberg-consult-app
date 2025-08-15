@@ -1,3 +1,5 @@
+import { FaWhatsapp, FaInstagram, FaLinkedin } from "react-icons/fa";
+
 import React from "react";
 
 export default function Footer() {
@@ -32,7 +34,7 @@ export default function Footer() {
           <ul className="flex flex-col md:flex-row gap-2 md:gap-8 font-medium">
             <li>
               <a href="#" className="hover:text-blue-400">
-                Expertise
+                Home
               </a>
             </li>
             <li>
@@ -58,8 +60,21 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <div className="text-center text-xs text-gray-400 mt-8">
-        © 2025 BROBERG CONSULT LTD. All rights reserved
+      <div className=" flex flex-row text-center text-xs text-gray-400 mt-8 justify-around ">
+        <span> © 2025 BROBERG CONSULT LTD. All rights reserved</span>
+       
+      
+      <div className="flex justify-center gap-10">
+         <a href="https://wa.me/233244141410" target="_blank" rel="noopener noreferrer">
+              <FaWhatsapp size={24} className="text-green-500 hover:text-green-400" />
+            </a>
+            <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">
+              <FaLinkedin size={24} className="text-blue-500 hover:text-blue-400" />
+            </a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+              <FaInstagram size={24} className="text-pink-500 hover:text-pink-400" />
+            </a>
+      </div>
       </div>
     </footer>
   );

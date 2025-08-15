@@ -43,14 +43,15 @@ export default function Navbar() {
       </button>
       {/* Navigation Links */}
       <ul
-        className={`flex-col md:flex-row md:flex space-y-6 md:space-y-0 md:space-x-6 absolute md:static top-full right-0 left-0 md:left-auto bg-black/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-0 px-6 text-center md:px-0 py-6 md:py-0 transition-all duration-300 ease-in-out ${
-          menuOpen ? "flex-col" : "hidden md:flex"
+        className={`flex-col md:flex-row md:flex space-y-6 md:space-y-0  md:space-x-6 absolute md:static top-full right-0 left-0 md:left-auto md:bg-transparent md:backdrop-blur-0 px-6 text-center md:px-0 py-6 md:py-0 transition-all duration-300 ease-in-out ${
+          menuOpen ? "flex-col  bg-black/70 md:bg-transparent backdrop-blur-md md:backdrop-blur-0" : "hidden md:flex"
         }`}
       >
-        <li className="">
+        <li>
           <a
             href="/"
-            className="text-white hover:text-blue-400 font-medium transition block"
+            className="text-white hover:text-blue-400 font-medium transition block bg-transparent"
+            style={{ background: "transparent" }}
             onClick={() => setMenuOpen(false)}
           >
             Home
@@ -59,7 +60,8 @@ export default function Navbar() {
         <li>
           <a
             href="/projects"
-            className="text-white hover:text-blue-400 font-medium transition block"
+            className="text-white hover:text-blue-400 font-medium transition block bg-transparent"
+            style={{ background: "transparent" }}
             onClick={() => setMenuOpen(false)}
           >
             Projects
@@ -68,7 +70,8 @@ export default function Navbar() {
         <li>
           <a
             href="/about"
-            className="text-white hover:text-blue-400 font-medium transition block"
+            className="text-white hover:text-blue-400 font-medium transition block bg-transparent"
+            style={{ background: "transparent" }}
             onClick={() => setMenuOpen(false)}
           >
             About Us
@@ -77,7 +80,8 @@ export default function Navbar() {
         <li>
           <a
             href="/contact"
-            className="text-white hover:text-blue-400 font-medium transition block"
+            className="text-white hover:text-blue-400 font-medium transition block bg-transparent"
+            style={{ background: "transparent" }}
             onClick={() => setMenuOpen(false)}
           >
             Contact Us

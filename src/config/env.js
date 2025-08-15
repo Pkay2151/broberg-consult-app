@@ -5,8 +5,8 @@
 
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: import.meta.env.VITE_API_BASE_URL || "http://localhost:3001/api",
-  BACKEND_URL: import.meta.env.VITE_BACKEND_URL || "http://localhost:3001",
+  BASE_URL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api",
+  BACKEND_URL: import.meta.env.VITE_BACKEND_URL || "http://localhost:5000",
   TIMEOUT: 30000, // 30 seconds
 };
 
@@ -62,7 +62,7 @@ export const isProduction = () => APP_CONFIG.ENVIRONMENT === "production";
 // Debug logger that respects environment settings
 export const debugLog = (...args) => {
   if (DEBUG_CONFIG.ENABLED && DEBUG_CONFIG.CONSOLE_LOGS) {
-    console.log("[DEBUG]", ...args);
+  
   }
 };
 
