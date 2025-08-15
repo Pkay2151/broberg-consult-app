@@ -33,22 +33,22 @@ export default function Footer() {
         <div className="flex-1 flex flex-col items-center md:items-center">
           <ul className="flex flex-col md:flex-row gap-2 md:gap-8 font-medium">
             <li>
-              <a href="#" className="hover:text-blue-400">
+              <a href="/" className="hover:text-blue-400">
                 Home
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-blue-400">
+              <a href="/projects" className="hover:text-blue-400">
                 Projects
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-blue-400">
+              <a href="/about" className="hover:text-blue-400">
                 About Us
               </a>
             </li>
             <li>
-              <a href="#" className="hover:text-blue-400">
+              <a href="/contact" className="hover:text-blue-400">
                 Contact Us
               </a>
             </li>
