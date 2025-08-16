@@ -116,7 +116,7 @@ const TopClient = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl md:text-4xl font-bold text-[#3A619C] mb-6">
-             Top Clients we have worked with
+            Top Clients we have worked with
           </h2>
         </motion.div>
 
@@ -216,7 +216,7 @@ const TopClient = () => {
                 }}
                 whileTap={{ scale: 0.95 }}
               >
-                CONTACT US
+                <a href="/contact">CONTACT US</a>
               </motion.button>
             </motion.div>
           </div>

@@ -15,6 +15,9 @@ import Employee from "../pages/Admin/Employee";
 import ProtectRoutes from "../pages/ProtectRoutes";
 import Project from "../pages/Admin/Project";
 import Projects from "../pages/Projects";
+import AboutUs from "../pages/AboutUs";
+import ContactUs from "../pages/ContactUs";
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -22,6 +25,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/contact" element={<ContactUs />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
