@@ -133,7 +133,7 @@ const sampleProjects = [
     status: "Completed",
     year: "2022",
     details: {
-      client: "LMI Holdings"'
+      client: "LMI Holdings",
       features: [
         "Modern open-plan office layouts with flexible workstations",
         "Upgraded HVAC systems for improved air quality",
