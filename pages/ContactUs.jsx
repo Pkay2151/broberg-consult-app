@@ -58,7 +58,7 @@ const ContactUs = () => {
                             <img src={ghanaNavy} alt="navy" className="h-12 object-contain mx-auto" />
                             <img src={mc} alt="mc" className="h-12 object-contain mx-auto" />
                             <img src={izako} alt="izako" className="h-12 object-contain mx-auto" />
-                        <img src={akersolutions} alt="akersolutions" className="h-12 object-contain mx-auto" />
+                            <img src={akersolutions} alt="akersolutions" className="h-12 object-contain mx-auto" />
                             <img src={usstatedept} alt="us-state-dept" className="h-12 object-contain mx-auto" />
                             <img src={nestle} alt="nestle" className="h-12 object-contain mx-auto" />
                             <img src={vvu} alt="vvu" className="h-12 object-contain mx-auto" />
