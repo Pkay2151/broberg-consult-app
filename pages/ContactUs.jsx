@@ -63,7 +63,7 @@ const ContactUs = () => {
                             <img src={nestle} alt="nestle" className="h-12 object-contain mx-auto" />
                             <img src={vvu} alt="vvu" className="h-12 object-contain mx-auto" />
                             <img src={raanan} alt="raanan" className="h-12 object-contain mx-auto" />
-                            <img src={lmi-holdings} alt="lmi-holdings" className="h-12 object-contain mx-auto" />
+                            <img src={lmiholdings} alt="lmi-holdings" className="h-12 object-contain mx-auto" />
 
                         </div>
                     </div>
