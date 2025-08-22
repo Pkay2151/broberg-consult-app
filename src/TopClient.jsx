@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import AkerSolution from "../src/assets/clients/aker-solutions.svg";
+import NestleGhana from "../src/assets/clients/nestle.svg";
 
 const TopClient = () => {
   // Client data - replace with actual client logos
@@ -14,7 +15,7 @@ const TopClient = () => {
     {
       id: 2,
       name: "Nestle Ghana Limited",
-      logo: "/src/assets/clients/nestle.svg",
+      logo: NestleGhana,
       description: "Food and beverage company",
     },
     {
