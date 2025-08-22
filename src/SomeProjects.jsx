@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, MapPin } from "lucide-react";
 import ProjectDetailsModal from "./ProjectDetailsModal";
+import DayCare from "../src/assets/project1.svg";
 
 const SomeProjects = () => {
   // Modal state
@@ -26,7 +27,7 @@ const SomeProjects = () => {
       id: 1,
       title: "Day Care Centre",
       location: "Korle gono, Ghana",
-      image: "/src/assets/project1.svg", // Replace with actual image paths
+      image: DayCare,
       description: "Modern daycare facility with state-of-the-art amenities",
       featured: true,
     },
