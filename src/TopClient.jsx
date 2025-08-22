@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import AkerSolution from "../src/assets/clients/aker-solutions.svg";
 
 const TopClient = () => {
   // Client data - replace with actual client logos
@@ -7,7 +8,7 @@ const TopClient = () => {
     {
       id: 1,
       name: "AkerSolutions",
-      logo: "/src/assets/clients/aker-solutions.svg",
+      logo: AkerSolution,
       description: "Global engineering company",
     },
     {
