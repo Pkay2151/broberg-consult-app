@@ -3,6 +3,14 @@ import { motion } from "framer-motion";
 import { ExternalLink, MapPin } from "lucide-react";
 import ProjectDetailsModal from "./ProjectDetailsModal";
 import DayCare from "../src/assets/project1.svg";
+import HospitalComplex from "../src/assets/project2.svg";
+import EducationalInsti from "../src/assets/project3.svg";
+import SportComplex from "../src/assets/project4.svg";
+import OfficeBuilding from "../src/assets/project5.svg";
+import ResidentialComplex from "../src/assets/project6.svg";
+import IndustrialFaci from "../src/assets/project7.svg";
+import CommunityCenter from "../src/assets/project8.svg";
+
 
 const SomeProjects = () => {
   // Modal state
@@ -35,7 +43,7 @@ const SomeProjects = () => {
       id: 2,
       title: "Hospital Complex",
       location: "Kumasi, Ghana",
-      image: "/src/assets/project2.svg",
+      image: HospitalComplex,
       description: "Multi-story medical facility with advanced infrastructure",
       featured: false,
     },
@@ -43,7 +51,7 @@ const SomeProjects = () => {
       id: 3,
       title: "Educational Institute",
       location: "Tamale, Ghana",
-      image: "/src/assets/project3.svg",
+      image: EducationalInsti,
       description: "Modern educational building with sustainable design",
       featured: false,
     },
@@ -51,7 +59,7 @@ const SomeProjects = () => {
       id: 4,
       title: "Sports Complex",
       location: "Cape Coast, Ghana",
-      image: "/src/assets/project4.svg",
+      image: SportComplex,
       description: "Multi-purpose sports facility with modern architecture",
       featured: false,
     },
@@ -59,7 +67,7 @@ const SomeProjects = () => {
       id: 5,
       title: "Office Building",
       location: "Tema, Ghana",
-      image: "/src/assets/project5.svg",
+      image: OfficeBuilding,
       description: "Commercial office space with contemporary design",
       featured: false,
     },
@@ -67,7 +75,7 @@ const SomeProjects = () => {
       id: 6,
       title: "Residential Complex",
       location: "Takoradi, Ghana",
-      image: "/src/assets/project6.svg",
+      image: ResidentialComplex,
       description: "Affordable housing project with modern amenities",
       featured: false,
     },
@@ -75,7 +83,7 @@ const SomeProjects = () => {
       id: 7,
       title: "Industrial Facility",
       location: "Sunyani, Ghana",
-      image: "/src/assets/project7.svg",
+      image: IndustrialFaci,
       description: "Manufacturing plant with efficient layout design",
       featured: false,
     },
@@ -83,7 +91,7 @@ const SomeProjects = () => {
       id: 8,
       title: "Community Center",
       location: "Ho, Ghana",
-      image: "/src/assets/project8.svg",
+      image: CommunityCenter,
       description: "Multi-purpose community facility serving local needs",
       featured: false,
     },
