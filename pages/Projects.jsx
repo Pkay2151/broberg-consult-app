@@ -11,8 +11,13 @@ import DayC2 from "../src/assets/Project Pictures/dcc 4.jpg";
 import DayC3 from "../src/assets/Project Pictures/DCC 5.jpg";
 import DayC4 from "../src/assets/Project Pictures/dcc 6.jpg";
 import DayC5 from "../src/assets/Project Pictures/Dcc.jpg";
+import NZEBPro from "../src/assets/Project Pictures/Nzeb Project.jpg";
+import UrologyCenter from "../src/assets/Project Pictures/6.webp";
+import UrologyCenter1 from "../src/assets/Project Pictures/2.jpg";
+import UrologyCenter2 from "../src/assets/Project Pictures/7.webp";
+import NG1 from "../src/assets/Project Pictures/NG 1.jpg";
+import NG2 from "../src/assets/Project Pictures/NG 2.jpg";
 
-// Sample project data
 const sampleProjects = [
   {
     id: 1,
@@ -21,7 +26,7 @@ const sampleProjects = [
     field: "Civil Engineering",
     description: "Modern healthcare facility design and construction with state-of-the-art medical equipment infrastructure.",
     image: AndoClinic,
-    // Add gallery images for each project
+ 
     gallery: [
       AndoClinic,
     ],
@@ -41,7 +46,7 @@ const sampleProjects = [
   {
     id: 2,
     title: "Day Care Centre",
-    location: "Kumasi, Ghana",
+    location: "Kole gono, Accra Ghana",
     field: "Structural Engineering",
     description: "Child-friendly facility with safe play areas, educational spaces, and modern security systems.",
     image: DayC,
@@ -51,12 +56,12 @@ const sampleProjects = [
       DayC2,
       DayC3,
       DayC4,
-      DayC5,
+      DayC5
     ],
     status: "Completed",
     year: "2023",
     details: {
-      client: "Ministry of Education",
+      client: "Catholic Archdiocese of Accra",
       features: [
         "Age-appropriate classrooms for 150 children",
         "Indoor and outdoor play areas with safety equipment",
@@ -72,16 +77,14 @@ const sampleProjects = [
     location: "Cape Coast, Ghana",
     field: "Project Management",
     description: "Net Zero Energy Building project focusing on sustainable construction and renewable energy integration.",
-    image: "/src/assets/Project Pictures/Nzeb Project.jpg",
+    image: NZEBPro,
     gallery: [
-      "/src/assets/Project Pictures/Nzeb Project.jpg",
+      NZEBPro
     ],
     status: "Completed",
     year: "2024",
     details: {
       client: "Ghana Green Building Council",
-      duration: "24 months",
-      budget: "GHS 4.2 million",
       features: [
         "Solar panel array with 100kW capacity",
         "Rainwater harvesting system",
@@ -89,9 +92,6 @@ const sampleProjects = [
         "Smart building management system",
         "Electric vehicle charging stations"
       ],
-      challenges: "Achieving net-zero energy consumption in tropical climate",
-      solutions: "Implemented advanced solar tracking systems and energy-efficient building materials with smart climate control",
-      outcome: "Expected to save 80% on energy costs and reduce carbon footprint by 90%"
     }
   },
   {
@@ -100,17 +100,15 @@ const sampleProjects = [
     location: "Accra, Ghana",
     field: "Civil Engineering",
     description: "Specialized medical facility with advanced urology equipment and patient care infrastructure.",
-    image: "/src/assets/Project Pictures/6.webp",
+    image: UrologyCenter,
     gallery: [
-      "/src/assets/Project Pictures/2.jpg",
-      "/src/assets/Project Pictures/7.webp",
+      UrologyCenter1,
+      UrologyCenter2
     ],
     status: "Completed",
     year: "2023",
     details: {
       client: "Korle-Bu Teaching Hospital",
-      duration: "15 months",
-      budget: "GHS 3.1 million",
       features: [
         "Specialized operating theaters with robotic surgery capabilities",
         "Dialysis unit with 20 stations",
@@ -118,12 +116,8 @@ const sampleProjects = [
         "Patient recovery wards with private rooms",
         "Research laboratory for urological studies"
       ],
-      challenges: "Integrating specialized medical equipment with existing hospital infrastructure",
-      solutions: "Designed modular infrastructure with flexible utility systems and seismic isolation for sensitive equipment",
-      outcome: "Increased patient capacity by 300% and reduced waiting times by 60%"
     }
   },
-    // ...existing code until project #5...
   
   {
     id: 5,
@@ -131,17 +125,15 @@ const sampleProjects = [
     location: "Accra, Ghana",
     field: "Project Management",
     description: "Refurbishment of existing office spaces to improve functionality and aesthetics.",
-    image: "/src/assets/Project Pictures/7.webp",
+    image: UrologyCenter2,
     gallery: [
-      "/src/assets/Project Pictures/7.webp",
-      "/src/assets/Project Pictures/2.jpg",
+      UrologyCenter2,
+      UrologyCenter1
     ],
     status: "Completed",
     year: "2022",
     details: {
-      client: "LMI Holdings",
-      duration: "6 months",
-      budget: "GHS 1.2 million",
+      client: "LMI Holdings"'
       features: [
         "Modern open-plan office layouts with flexible workstations",
         "Upgraded HVAC systems for improved air quality",
@@ -149,31 +141,25 @@ const sampleProjects = [
         "Modern conference rooms with AV equipment",
         "Reception area and executive offices renovation"
       ],
-      challenges: "Maintaining business operations during renovation phases",
-      solutions: "Implemented phased renovation approach with temporary workspace arrangements and after-hours construction",
-      outcome: "Improved workplace productivity by 25% and reduced energy costs by 30%"
     }
   },
   
-  // ...rest of existing code...
   {
     id: 6,
     title: "NG Commercial Complex",
     location: "Tema, Ghana",
     field: "Project Management",
     description: "Multi-purpose commercial building with retail spaces and office complexes.",
-    image: "/src/assets/Project Pictures/NG 1.jpg",
+    image: NG1,
     gallery: [
-      "/src/assets/Project Pictures/NG 1.jpg",
-      "/src/assets/Project Pictures/NG 2.jpg",
-      "/src/assets/Project Pictures/7.webp",
+      NG1,
+      NG2,
+      UrologyCenter2
     ],
     status: "Ongoing",
     year: "2024",
     details: {
       client: "NG Development Corporation",
-      duration: "30 months",
-      budget: "GHS 8.5 million",
       features: [
         "Shopping mall with 50 retail outlets",
         "Office towers with Grade A office spaces",
@@ -181,9 +167,6 @@ const sampleProjects = [
         "Food court and entertainment area",
         "Conference and event facilities"
       ],
-      challenges: "Coordinating multiple contractors and managing complex logistics",
-      solutions: "Implemented advanced project management software and phased construction approach with dedicated logistics coordination",
-      outcome: "Expected to create 800 jobs and boost local economy by 15%"
     }
   }
 ];
@@ -237,7 +220,6 @@ const Projects = () => {
     setCurrentImageIndex(index);
   };
 
-  // Fetch uploaded projects from API and keep only approved ones
   useEffect(() => {
     let mounted = true;
     const fetchUploaded = async () => {
@@ -457,7 +439,7 @@ const Projects = () => {
               {/* Click to view gallery hint - Only show if multiple images */}
               {selectedProject.gallery && selectedProject.gallery.length > 1 && (
                 <div className="absolute bottom-4 left-4 bg-black/40 px-4 py-2 rounded-lg backdrop-blur-md z-10">
-                  <p className="text-white text-sm font-medium">Click to view gallery</p>
+{/*                   <p className="text-white text-sm font-medium">Click to view gallery</p> */}
                 </div>
               )}
               
