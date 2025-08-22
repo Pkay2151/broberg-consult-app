@@ -35,7 +35,6 @@ const SomeProjects = () => {
       location: "Korle gono, Ghana",
       image: DayCare,
       description: "Modern daycare facility with state-of-the-art amenities",
-      featured: true,
     },
     {
       id: 2,
@@ -43,7 +42,6 @@ const SomeProjects = () => {
       location: "Kumasi, Ghana",
       image: HospitalComplex,
       description: "Multi-story medical facility with advanced infrastructure",
-      featured: false,
     },
     {
       id: 3,
@@ -59,7 +57,6 @@ const SomeProjects = () => {
       location: "Cape Coast, Ghana",
       image: SportComplex,
       description: "Multi-purpose sports facility with modern architecture",
-      featured: false,
     },
     {
       id: 5,
@@ -67,7 +64,6 @@ const SomeProjects = () => {
       location: "Tema, Ghana",
       image: OfficeBuilding,
       description: "Commercial office space with contemporary design",
-      featured: false,
     },
     {
       id: 6,
@@ -75,7 +71,6 @@ const SomeProjects = () => {
       location: "Takoradi, Ghana",
       image: ResidentialComplex,
       description: "Affordable housing project with modern amenities",
-      featured: false,
     },
     {
       id: 7,
@@ -83,7 +78,6 @@ const SomeProjects = () => {
       location: "Sunyani, Ghana",
       image: IndustrialFaci,
       description: "Manufacturing plant with efficient layout design",
-      featured: false,
     },
     {
       id: 8,
@@ -91,7 +85,6 @@ const SomeProjects = () => {
       location: "Ho, Ghana",
       image: CommunityCenter,
       description: "Multi-purpose community facility serving local needs",
-      featured: false,
     },
   ];
 
@@ -185,7 +178,7 @@ const SomeProjects = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
                   {/* Hover overlay with icon */}
-                  <div
+{/*                   <div
                     className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
                     onClick={() => openProjectModal(project)}
                   >
@@ -196,7 +189,7 @@ const SomeProjects = () => {
                     >
                       <ExternalLink className="w-6 h-6 text-blue-600" />
                     </motion.div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
