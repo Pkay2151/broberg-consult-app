@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "./Nav";
+import P1 from "../src/assets/project1.svg";
+import P2 from "../src/assets/project2.svg";
+import P3 from "../src/assets/project3.svg";
+import P4 from "../src/assets/project4.svg";
+
 
 const images = [
-  "/src/assets/project1.svg",
-  "/src/assets/project2.svg",
-  "/src/assets/project3.svg",
-  "/src/assets/project4.svg",
+  P1,
+  P2,
+  P3,
+  P4,
 ];
 
 const HeroSection = () => {
