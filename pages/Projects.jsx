@@ -23,8 +23,6 @@ const sampleProjects = [
     year: "2024",
     details: {
       client: "Ando Healthcare Group",
-      duration: "18 months",
-      budget: "GHS 2.5 million",
       features: [
         "Emergency care unit with advanced life support systems",
         "Outpatient consultation rooms with modern diagnostic equipment",
@@ -32,9 +30,6 @@ const sampleProjects = [
         "Pharmacy and laboratory facilities",
         "Parking facility for 50 vehicles"
       ],
-      challenges: "Integration of complex HVAC systems for sterile environments",
-      solutions: "Implemented advanced air filtration systems with redundant backup units and smart monitoring",
-      outcome: "Facility now serves over 200 patients daily with 99% patient satisfaction rate"
     }
   },
   {
