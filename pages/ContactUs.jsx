@@ -4,25 +4,31 @@ import Navbar from "../src/components/Nav";
 import Footer from "../src/components/Footer";
 import { toast } from "react-toastify";
 import emailjs from "@emailjs/browser";
-
-// dotenv.config(); // Removed because dotenv is not available in the browser
+import ghanaNavy from "../src/assets/clients/ghana-navy.svg";
+import mc from "../src/assets/clients/mc.svg";
+import izako from "../src/assets/clients/izako.svg";
+import akersolutions from "../src/assets/clients/aker-solutions.svg";
+import usstatedept from "../src/assets/clients/us-state-dept.svg";
+import nestle from "../src/assets/clients/nestle.svg";
+import vvu from "../src/assets/clients/vvu.svg";
+import raanan from "../src/assets/clients/raanan.svg";
+import lmiholdings from "../src/assets/clients/lmi-holdings.svg";
 
 const ContactUs = () => {
     const form = useRef(null);
     const sendEmail = (e) => {
         e.preventDefault();
 
-        // Add timestamp dynamically
         const currentTime = new Date().toLocaleString();
         const formData = new FormData(form.current);
         formData.append("time", currentTime);
 
         emailjs
             .sendForm(
-                "service_8sr8j1i",     // Replace with your EmailJS Service ID
-                "template_s7g5luc",    // Replace with your EmailJS Template ID
+                "service_8sr8j1i",     
+                "template_s7g5luc",    
                 form.current,
-                "bhOjF3zJHTaNavHHV"      // Replace with your EmailJS Public Key
+                "bhOjF3zJHTaNavHHV"      
             )
             .then(
                 () => {
@@ -49,15 +55,15 @@ const ContactUs = () => {
                     <div className="mt-8">
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Clients</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 items-center">
-                            <img src="src/assets/clients/ghana-navy.svg" alt="Izako" className="h-12 object-contain mx-auto" />
-                            <img src="src/assets/clients/mc.svg" alt="TG Advisers" className="h-12 object-contain mx-auto" />
-                            <img src="src/assets/clients/izako.svg" alt="The Blue Energy" className="h-12 object-contain mx-auto" />
-                            <img src="src/assets/clients/aker-solutions.svg" alt="The Blue Energy" className="h-12 object-contain mx-auto" />
-                            <img src="src/assets/clients/us-state-dept.svg" alt="The Blue Energy" className="h-12 object-contain mx-auto" />
-                            <img src="src/assets/clients/nestle.svg" alt="nestle" className="h-12 object-contain mx-auto" />
-                            <img src="src/assets/clients/vvu.svg" alt="vvu" className="h-12 object-contain mx-auto" />
-                            <img src="src/assets/clients/raanan.svg" alt="raanan" className="h-12 object-contain mx-auto" />
-                            <img src="src/assets/clients/lmi-holdings.svg" alt="lmi-holdings" className="h-12 object-contain mx-auto" />
+                            <img src={ghanaNavy} alt="navy" className="h-12 object-contain mx-auto" />
+                            <img src={mc} alt="mc" className="h-12 object-contain mx-auto" />
+                            <img src={izako} alt="izako" className="h-12 object-contain mx-auto" />
+                        <img src={akersolutions} alt="akersolutions" className="h-12 object-contain mx-auto" />
+                            <img src={usstatedept} alt="us-state-dept" className="h-12 object-contain mx-auto" />
+                            <img src={nestle} alt="nestle" className="h-12 object-contain mx-auto" />
+                            <img src={vvu} alt="vvu" className="h-12 object-contain mx-auto" />
+                            <img src={raanan} alt="raanan" className="h-12 object-contain mx-auto" />
+                            <img src={lmi-holdings} alt="lmi-holdings" className="h-12 object-contain mx-auto" />
 
                         </div>
                     </div>
