@@ -4,6 +4,7 @@ import Footer from "../src/components/Footer";
 import { projectsAPI } from "../util/api";
 import { toast } from "react-toastify";
 import { getImageUrlWithFallback } from "../src/utils/imageUtils";
+import AndoClinic from "../src/assets/Project Pictures/Ando Clinic.jpg";
 
 // Sample project data
 const sampleProjects = [
@@ -13,10 +14,10 @@ const sampleProjects = [
     location: "Accra, Ghana",
     field: "Civil Engineering",
     description: "Modern healthcare facility design and construction with state-of-the-art medical equipment infrastructure.",
-    image: "/src/assets/Project Pictures/Ando Clinic.jpg",
+    image: AndoClinic,
     // Add gallery images for each project
     gallery: [
-      "/src/assets/Project Pictures/Ando Clinic.jpg",
+      AndoClinic,
     ],
     status: "Completed",
     year: "2024",
