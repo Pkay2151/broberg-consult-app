@@ -48,38 +48,10 @@ export default function Navbar() {
           menuOpen ? "flex-col  bg-black/70 md:bg-transparent backdrop-blur-md md:backdrop-blur-0" : "hidden md:flex"
         }`}
       >
-
       <Link to="/home" className="block font-medium text-white transition hover:text-blue-400" onClick={() => setMenuOpen(false)}>Home</Link>
-        <li>
-          <a
-            href="/projects"
-            className="text-white hover:text-blue-400 font-medium transition block bg-transparent"
-            style={{ background: "transparent" }}
-            onClick={() => setMenuOpen(false)}
-          >
-            Projects
-          </a>
-        </li>
-        <li>
-          <a
-            href="/about"
-            className="text-white hover:text-blue-400 font-medium transition block bg-transparent"
-            style={{ background: "transparent" }}
-            onClick={() => setMenuOpen(false)}
-          >
-            About Us
-          </a>
-        </li>
-        <li>
-          <a
-            href="/contact"
-            className="text-white hover:text-blue-400 font-medium transition block bg-transparent"
-            style={{ background: "transparent" }}
-            onClick={() => setMenuOpen(false)}
-          >
-            Contact Us
-          </a>
-        </li>
+      <Link to="/projects" className="block font-medium text-white transition hover:text-blue-400" onClick={() => setMenuOpen(false)}>Projects</Link>
+      <Link to="/about" className="block font-medium text-white transition hover:text-blue-400" onClick={() => setMenuOpen(false)}>About Us</Link>
+      <Link to="/contact" className="block font-medium text-white transition hover:text-blue-400" onClick={() => setMenuOpen(false)}>Contact Us</Link>  
       </ul>
     </motion.nav>
   );
