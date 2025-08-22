@@ -10,7 +10,7 @@ import DayC1 from "../src/assets/Project Pictures/dcc 2.jpg";
 import DayC2 from "../src/assets/Project Pictures/dcc 4.jpg";
 import DayC3 from "../src/assets/Project Pictures/DCC 5.jpg";
 import DayC4 from "../src/assets/Project Pictures/dcc 6.jpg";
-import DayC5 from "../src/assets/Project Pictures/dcc.jpg";
+import DayC5 from "../src/assets/Project Pictures/Dcc.jpg";
 
 // Sample project data
 const sampleProjects = [
