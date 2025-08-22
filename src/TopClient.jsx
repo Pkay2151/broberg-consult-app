@@ -2,6 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import AkerSolution from "../src/assets/clients/aker-solutions.svg";
 import NestleGhana from "../src/assets/clients/nestle.svg";
+import IzakoLimited from "../src/assets/clients/izako.svg";
+import USState from "../src/assets/clients/us-state-dept.svg";
+import GhanaNavy from "../src/assets/clients/ghana-navy.svg";
+import lmiHolding from "../src/assets/clients/lmi-holdings.svg";
+import ValleyView from "../src/assets/clients/vvu.svg";
+import MarineConstr from "../src/assets/clients/mc.svg";
+import Raanan from "../src/assets/clients/raanan.svg"
 
 const TopClient = () => {
   // Client data - replace with actual client logos
@@ -21,43 +28,43 @@ const TopClient = () => {
     {
       id: 3,
       name: "IZAKO Limited",
-      logo: "/src/assets/clients/izako.svg",
+      logo: IzakoLimited,
       description: "Construction and engineering",
     },
     {
       id: 4,
       name: "Department of State United States of America",
-      logo: "/src/assets/clients/us-state-dept.svg",
+      logo: USState,
       description: "US Government Agency",
     },
     {
       id: 5,
       name: "Ghana Navy",
-      logo: "/src/assets/clients/ghana-navy.svg",
+      logo: GhanaNavy,
       description: "Naval force of Ghana",
     },
     {
       id: 6,
       name: "LMI Holdings Limited",
-      logo: "/src/assets/clients/lmi-holdings.svg",
+      logo: lmiHolding,
       description: "Investment holding company",
     },
     {
       id: 7,
       name: "Valley View University",
-      logo: "/src/assets/clients/vvu.svg",
+      logo: ValleyView,
       description: "Private university in Ghana",
     },
     {
       id: 8,
       name: "MC (Marine Construction)",
-      logo: "/src/assets/clients/mc.svg",
+      logo: MarineConstr,
       description: "Marine construction company",
     },
     {
       id: 9,
       name: "Raanan Fish Feed",
-      logo: "/src/assets/clients/raanan.svg",
+      logo: Raanan,
       description: "Aquaculture feed company",
     },
   ];
