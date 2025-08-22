@@ -1,6 +1,7 @@
 // components/Navbar.tsx
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -47,16 +48,8 @@ export default function Navbar() {
           menuOpen ? "flex-col  bg-black/70 md:bg-transparent backdrop-blur-md md:backdrop-blur-0" : "hidden md:flex"
         }`}
       >
-        <li>
-          <a
-            href="/"
-            className="text-white hover:text-blue-400 font-medium transition block bg-transparent"
-            style={{ background: "transparent" }}
-            onClick={() => setMenuOpen(false)}
-          >
-            Home
-          </a>
-        </li>
+
+      <Link to="/home" className="block font-medium text-white transition hover:text-blue-400" onClick={() => setMenuOpen(false)}>Home</Link>
         <li>
           <a
             href="/projects"
