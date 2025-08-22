@@ -13,23 +13,21 @@ import CommunityCenter from "../src/assets/project8.svg";
 
 
 const SomeProjects = () => {
-  // Modal state
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Function to open modal with project details
+  
   const openProjectModal = (project) => {
     setSelectedProject(project);
     setIsModalOpen(true);
   };
 
-  // Function to close modal
+
   const closeProjectModal = () => {
     setIsModalOpen(false);
     setSelectedProject(null);
   };
 
-  // Sample project data - you can replace with actual data
   const projects = [
     {
       id: 1,
@@ -97,7 +95,6 @@ const SomeProjects = () => {
     },
   ];
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -167,13 +164,13 @@ const SomeProjects = () => {
               }}
             >
               {/* Featured Badge */}
-              {project.featured && (
+{/*               {project.featured && (
                 <div className="absolute top-3 left-3 z-10">
                   <span className="bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
                     FEATURED
                   </span>
                 </div>
-              )}
+              )} */}
 
               {/* Project Image */}
               <div className="relative h-48 overflow-hidden">
