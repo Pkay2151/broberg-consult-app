@@ -5,6 +5,12 @@ import { projectsAPI } from "../util/api";
 import { toast } from "react-toastify";
 import { getImageUrlWithFallback } from "../src/utils/imageUtils";
 import AndoClinic from "../src/assets/Project Pictures/Ando Clinic.jpg";
+import DayC from "../src/assets/Project Pictures/Day care centre.jpg";
+import DayC1 from "../src/assets/Project Pictures/dcc 2.jpg";
+import DayC2 from "../src/assets/Project Pictures/dcc 4.jpg";
+import DayC3 from "../src/assets/Project Pictures/DCC 5.jpg";
+import DayC4 from "../src/assets/Project Pictures/dcc 6.jpg";
+import DayC5 from "../src/assets/Project Pictures/dcc.jpg";
 
 // Sample project data
 const sampleProjects = [
@@ -38,21 +44,19 @@ const sampleProjects = [
     location: "Kumasi, Ghana",
     field: "Structural Engineering",
     description: "Child-friendly facility with safe play areas, educational spaces, and modern security systems.",
-    image: "/src/assets/Project Pictures/Day care centre.jpg",
+    image: DayC,
     gallery: [
-      "/src/assets/Project Pictures/Day care centre.jpg",
-      "/src/assets/Project Pictures/dcc 2.jpg", 
-      "/src/assets/Project Pictures/dcc 4.jpg",
-      "/src/assets/Project Pictures/DCC 5.jpg",
-      "/src/assets/Project Pictures/dcc 6.jpg",
-      "/src/assets/Project Pictures/dcc.jpg",
+      DayC,
+      DayC1, 
+      DayC2,
+      DayC3,
+      DayC4,
+      DayC5,
     ],
     status: "Completed",
     year: "2023",
     details: {
       client: "Ministry of Education",
-      duration: "12 months",
-      budget: "GHS 1.8 million",
       features: [
         "Age-appropriate classrooms for 150 children",
         "Indoor and outdoor play areas with safety equipment",
@@ -60,9 +64,6 @@ const sampleProjects = [
         "Administrative offices and staff rooms",
         "Emergency evacuation systems"
       ],
-      challenges: "Designing earthquake-resistant structures in seismic zone",
-      solutions: "Used advanced seismic isolation systems and flexible joint connections with reinforced concrete",
-      outcome: "Facility accommodates 150 children with enhanced safety standards"
     }
   },
   {
