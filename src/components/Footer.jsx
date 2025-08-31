@@ -17,12 +17,12 @@ export default function Footer() {
           <div className="text-sm leading-relaxed">
             <div>
               Telephone:{" "}
-              <span className="text-gray-300">(+233) 244-141410</span>
+              <span className="text-gray-300">(+233) 244-141-410</span>
             </div>
             <div>
               Email:{" "}
               <span className="text-gray-300">
-                ebenezer.n.broberg@gmail.com
+                c.bergmann.broberg@gmail.com
               </span>
             </div>
             <div>Location: Accra, Adabraka</div>
