@@ -237,7 +237,7 @@ const SomeProjects = () => {
               boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)",
             }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => (window.location.href = "/projects")}
+            onClick={() => (window.location.to = "/projects")}
           >
             View All Projects
           </motion.button>
