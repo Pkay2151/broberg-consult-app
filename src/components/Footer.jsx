@@ -1,6 +1,6 @@
 import { FaWhatsapp, FaInstagram, FaLinkedin } from "react-icons/fa";
-
 import React from "react";
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -33,29 +33,29 @@ export default function Footer() {
         <div className="flex-1 flex flex-col items-center md:items-center">
           <ul className="flex flex-col md:flex-row gap-2 md:gap-8 font-medium">
             <li>
-              <a href="/" className="hover:text-blue-400">
+              <Link to="/" className="hover:text-blue-400">
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/projects" className="hover:text-blue-400">
+              <Link to="/projects" className="hover:text-blue-400">
                 Projects
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/about" className="hover:text-blue-400">
+              <Link to="/about" className="hover:text-blue-400">
                 About Us
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/contact" className="hover:text-blue-400">
+              <Link to="/contact" className="hover:text-blue-400">
                 Contact Us
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="/login" className="hover:text-blue-400">
+              <Link to="/login" className="hover:text-blue-400">
                 Admin
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -65,15 +65,15 @@ export default function Footer() {
        
       
       <div className="flex justify-center gap-10">
-         <a href="https://wa.me/233244141410" target="_blank" rel="noopener noreferrer">
+         <Link to="https://wa.me/233244141410" target="_blank" rel="noopener noreferrer">
               <FaWhatsapp size={24} className="text-green-500 hover:text-green-400" />
-            </a>
-            <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">
+            </Link>
+            <Link to="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">
               <FaLinkedin size={24} className="text-blue-500 hover:text-blue-400" />
-            </a>
-            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+            </Link>
+            <Link to="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
               <FaInstagram size={24} className="text-pink-500 hover:text-pink-400" />
-            </a>
+            </Link>
       </div>
       </div>
     </footer>
