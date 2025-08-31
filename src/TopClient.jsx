@@ -8,7 +8,8 @@ import GhanaNavy from "../src/assets/clients/ghana-navy.svg";
 import lmiHolding from "../src/assets/clients/lmi-holdings.svg";
 import ValleyView from "../src/assets/clients/vvu.svg";
 import MarineConstr from "../src/assets/clients/mc.svg";
-import Raanan from "../src/assets/clients/raanan.svg"
+import Raanan from "../src/assets/clients/raanan.svg";
+import { Link } from 'react-router-dom';
 
 const TopClient = () => {
   // Client data - replace with actual client logos
@@ -225,7 +226,7 @@ const TopClient = () => {
                 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <a href="/contact">CONTACT US</a>
+                <Link to="/contact">CONTACT US</Link>
               </motion.button>
             </motion.div>
           </div>
