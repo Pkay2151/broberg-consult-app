@@ -2,6 +2,7 @@
 import React from "react";
 import Navbar from "../src/components/Nav";
 import Footer from "../src/components/Footer";
+import { Link } from 'react-router-dom';
 
 const AboutUs = () => {
     return (
@@ -22,7 +23,7 @@ const AboutUs = () => {
                     <p className="text-lg md:text-xl max-w-2xl mb-6" style={{ color: '#e3e8f0ff' }}>
                         <span className="font-semibold" style={{ color: '#e3e8f0ff' }}>Broberg Consult Limited</span> has over <span className="font-bold" style={{ color: '#e3e8f0ff' }}>15 years of experience</span> in providing consulting to the <span className="font-bold" style={{ color: '#e3e8f0ff' }}>Construction Industry</span>. With its equipped team and expects, we have managed to build over 50 projects all across Ghana. The company specializes in <span className="font-bold" style={{ color: '#e3e8f0ff' }}>Project Management, Civil Engineering &amp; Structural Engineering</span>.
                     </p>
-                    <a href="/contact" className="bg-[#3A619C] hover:bg-blue-800 text-white font-semibold py-2 px-6 rounded shadow transition inline-block">Contact Us</a>
+                    <Link to="/contact" className="bg-[#3A619C] hover:bg-blue-800 text-white font-semibold py-2 px-6 rounded shadow transition inline-block">Contact Us</Link>
                 </div>
             </section>
 
