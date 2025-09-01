@@ -19,7 +19,7 @@ const HeroSection = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
-    }, 4000); // Change image every 4 seconds
+    }, 4000); 
     return () => clearInterval(interval);
   }, []);
 
@@ -50,12 +50,12 @@ const HeroSection = () => {
             and Structural Engineering
           </span>
         </h1>
-        <a
-          href="/projects"
+        <Link
+          to="/projects"
           className="inline-block mt-6 px-8 py-3 bg-[#3A619C] hover:bg-blue-800 text-white font-semibold rounded-full text-lg shadow-lg transition"
         >
           See our Projects
-        </a>
+        </Link>
       </div>
       {/* Optional: Dots for navigation */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-2 z-20">
