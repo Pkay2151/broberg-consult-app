@@ -1,4 +1,3 @@
-// components/Navbar.tsx
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from 'react-router-dom';
@@ -37,9 +36,9 @@ export default function Navbar() {
         aria-label="Toggle navigation menu"
       >
         {menuOpen ? (
-          <span>&#10005;</span> // X icon
+          <span>&#10005;</span> 
         ) : (
-          <span>&#9776;</span> // Hamburger icon
+          <span>&#9776;</span> 
         )}
       </button>
       {/* Navigation Links */}
