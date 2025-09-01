@@ -171,7 +171,7 @@ const SomeProjects = () => {
                   className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                   style={{
                     backgroundImage: `url(${project.image})`,
-                    backgroundColor: "#e5e7eb", // Fallback color
+                    backgroundColor: "#e5e7eb", 
                   }}
                 >
                   {/* Image overlay */}
@@ -237,7 +237,7 @@ const SomeProjects = () => {
               boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)",
             }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => (window.location = "/projects")}
+            onClick={() => (window.location href= "/projects")}
           >
             View All Projects
           </motion.button>
