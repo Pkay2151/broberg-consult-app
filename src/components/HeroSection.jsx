@@ -4,6 +4,7 @@ import P1 from "../assets/project1.svg";
 import P2 from "../assets/project2.svg";
 import P3 from "../assets/project3.svg";
 import P4 from "../assets/project4.svg";
+import { Link } from "react-router-dom";
 
 
 const images = [
