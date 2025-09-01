@@ -27,7 +27,7 @@ const WhatWeDo = () => {
           viewport={{ once: true, amount: 0.3 }}
         >
           <motion.h6
-            className="text-2xl font-bold text-left text-blue-800 mb-8"
+            className="text-2xl font-bold text-left text-[#3A619C] mb-8"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -36,7 +36,7 @@ const WhatWeDo = () => {
             Who are we?
           </motion.h6>
           <motion.h2
-            className="text-4xl font-bold text-left text-blue-800 mb-8"
+            className="text-4xl font-bold text-left text-[#3A619C] mb-8"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
