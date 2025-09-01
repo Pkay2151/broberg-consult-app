@@ -52,7 +52,7 @@ const AboutUs = () => {
             <section className="container mx-auto px-4 py-16 max-w-6xl">
                 <div className="text-center mb-8">
                     <h3 className="text-[#3A619C] font-semibold mb-2 text-lg">Meet the team</h3>
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#3A619C]">A company is as good as its <span className="text-[#3A619C]">team</span></h2>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-[#3A619C]">A Company Is As Good As Its <span className="text-[#3A619C]">Team</span></h2>
                     <p className="text-gray-600 text-lg max-w-3xl mx-auto">The team is endowed with wide range of professionals who have enormous experience in project management and
                         engineering. The extended team consists of architects, civil engineers, quantity surveyors among others.</p>
                 </div>
@@ -90,14 +90,14 @@ const AboutUs = () => {
                 </div>
             </section>
             {/* Centered Oval Transparent Button */}
-            <div className="flex justify-center my-8">
+            {/* <div className="flex justify-center my-8">
                 <button
                     className="px-12 py-4 rounded-full bg-white/40 border border-[#3A619C] text-[#3A619C] font-bold text-lg shadow-lg backdrop-blur-md hover:bg-white/60 transition"
                     style={{ minWidth: '150px' }}
                 >
                     See Our Team
                 </button>
-            </div>
+            </div> */}
             {/* Software Tools Section */}
             <section className="w-full mx-auto px-4 py-16 bg-blue-50 rounded-xl">
                 <div className="mb-8 text-center">
