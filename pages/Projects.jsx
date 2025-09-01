@@ -259,7 +259,7 @@ const Projects = () => {
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-[#3A619C] mb-4 drop-shadow-lg">
               Our Projects
             </h1>
-            <p className="text-xl md:text-2xl text-[#3A619C] max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
               Browse through our projects which cut across Project Management, Civil and Structural Engineering.<br />
               For any project is the location and the particular field of engineering and the description.
             </p>
