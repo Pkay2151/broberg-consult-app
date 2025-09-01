@@ -33,7 +33,7 @@ export default function Footer() {
         <div className="flex-1 flex flex-col items-center md:items-center">
           <ul className="flex flex-col md:flex-row gap-2 md:gap-8 font-medium">
             <li>
-              <Link to="/home" className="hover:text-blue-400">
+              <Link to="/" className="hover:text-blue-400">
                 Home
               </Link>
             </li>
