@@ -156,7 +156,7 @@ const sampleProjects = [
       NG2,
       UrologyCenter2
     ],
-    status: "Ongoing",
+    status: "Completed",
     year: "2024",
     details: {
       client: "NG Development Corporation",
@@ -227,7 +227,6 @@ const Projects = () => {
       try {
         const data = await projectsAPI.getAllproject();
 
-        // normalize response shapes
         let projectsArray = [];
         if (Array.isArray(data)) projectsArray = data;
         else if (data && Array.isArray(data.projects)) projectsArray = data.projects;
