@@ -19,7 +19,7 @@ const AboutUs = () => {
             >
                 <div className="absolute inset-0 bg-black/50"></div>
                 <div className="relative z-10 flex flex-col items-center justify-center h-full w-full px-4">
-                    <h1 className="text-5xl md:text-5xl font-extrabold mb-6" style={{ color: '#e3e8f0ff' }}>About Us</h1> 
+                    <h1 className="text-6xl md:text-6xl font-extrabold mb-6" style={{ color: '#3A619C' }}>About Us</h1> 
                     <p className="text-lg md:text-xl max-w-2xl mb-6" style={{ color: '#e3e8f0ff' }}>
                         <span className="font-semibold" style={{ color: '#e3e8f0ff' }}>Broberg Consult Limited</span> has over <span className="font-bold" style={{ color: '#e3e8f0ff' }}>15 years of experience</span> in providing consulting to the <span className="font-bold" style={{ color: '#e3e8f0ff' }}>Construction Industry</span>. With its equipped team and expects, we have managed to build over 50 projects all across Ghana. The company specializes in <span className="font-bold" style={{ color: '#e3e8f0ff' }}>Project Management, Civil Engineering &amp; Structural Engineering</span>.
                     </p>
