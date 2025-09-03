@@ -3,6 +3,7 @@ import Navbar from "../src/components/Nav";
 import Footer from "../src/components/Footer";
 import { projectsAPI } from "../util/api";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 import { getImageUrlWithFallback } from "../src/utils/imageUtils";
 import AndoClinic from "../src/assets/Project Pictures/Ando Clinic.jpg";
 import DayC from "../src/assets/Project Pictures/Day care centre.jpg";
@@ -579,9 +580,11 @@ const Projects = () => {
                     >
                       Close Project Details
                     </button>
+                    <Link to="/contact">
                     <button className="px-8 py-3 bg-white/10 text-white hover:bg-white/20 rounded-xl font-semibold transition-colors duration-200 backdrop-blur-sm">
                       Contact Us About This Project
                     </button>
+                    </Link>
                   </div>
                 </div>
               </div>
