@@ -68,7 +68,7 @@ export default function Footer() {
          <Link to="https://wa.me/233244314140" target="_blank" rel="noopener noreferrer">
               <FaWhatsapp size={24} className="text-green-500 hover:text-green-400" />
             </Link>
-            <Link to="https://https://www.linkedin.com/in/christiane-bergmann-32408856/" target="_blank" rel="noopener noreferrer">
+            <Link to="https://www.linkedin.com/in/christiane-bergmann-32408856/" target="_blank" rel="noopener noreferrer">
               <FaLinkedin size={24} className="text-blue-500 hover:text-blue-400" />
             </Link>
 {/*             <Link to="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
