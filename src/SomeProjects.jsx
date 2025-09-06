@@ -223,7 +223,7 @@ const SomeProjects = () => {
         </motion.div>
 
         {/* View All Projects Button */}
-        <motion.div
+{/*         <motion.div
           className="text-center mt-12"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -241,7 +241,7 @@ const SomeProjects = () => {
           >
             View All Projects
           </motion.button>
-        </motion.div>
+        </motion.div> */}
 
         {/* Project Details Modal */}
         <ProjectDetailsModal
