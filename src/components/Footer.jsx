@@ -17,7 +17,7 @@ export default function Footer() {
           <div className="text-sm leading-relaxed">
             <div>
               Telephone:{" "}
-              <span className="text-gray-300">(+233) 244-141-410</span>
+              <span className="text-gray-300">(+233)24 431 4140</span>
             </div>
             <div>
               Email:{" "}
@@ -65,15 +65,15 @@ export default function Footer() {
        
       
       <div className="flex justify-center gap-10">
-         <Link to="https://wa.me/233244141410" target="_blank" rel="noopener noreferrer">
+         <Link to="https://wa.me/233244314140" target="_blank" rel="noopener noreferrer">
               <FaWhatsapp size={24} className="text-green-500 hover:text-green-400" />
             </Link>
-            <Link to="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">
+            <Link to="https://https://www.linkedin.com/in/christiane-bergmann-32408856/" target="_blank" rel="noopener noreferrer">
               <FaLinkedin size={24} className="text-blue-500 hover:text-blue-400" />
             </Link>
-            <Link to="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
+{/*             <Link to="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
               <FaInstagram size={24} className="text-pink-500 hover:text-pink-400" />
-            </Link>
+            </Link> */}
       </div>
       </div>
     </footer>
