@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Navbar from "../src/components/Nav";
-// import bg2 from "./assets/bg2.png";
-// In your Register component
+import { Link } from "react-router-dom";
 
 import { authAPI } from "../util/api";
 
@@ -22,8 +21,7 @@ export default function Register() {
     setLoading(true);
     try {
       await authAPI.register(data);
-      reset(); // Clear form on success
-      // Optionally redirect after successful registration
+      reset();
       setTimeout(() => {
         window.location.href = "/login";
       }, 2000);
@@ -31,7 +29,6 @@ export default function Register() {
       setMessage(error.message || "Registration failed");
       console.error("Registration error:", error);
 
-      // Error toast is handled in the API
     } finally {
       setLoading(false);
     }
@@ -134,7 +131,7 @@ export default function Register() {
                 </div>
               )}
               <p className="text-center text-gray-700">
-                <a href="/login">Already have an account?</a>
+                <Link to ="/login">Already have an account?</Link>
               </p>
             </form>
           </div>
