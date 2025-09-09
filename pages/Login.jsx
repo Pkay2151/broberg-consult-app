@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 // import Navbar from "../src/components/Nav";
 import { authAPI } from "../util/api";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const {
@@ -132,10 +133,10 @@ export default function Login() {
               </button>
 
               <p className="text-center text-gray-700">
-                <a href="/register">Don't have an account? Register</a>
+                <Link to="/register">Don't have an account? Register</Link>
               </p>
               <p className="text-center text-gray-700">
-                <a href="/forgot-password">Forgot your password?</a>
+                <Link to="/forgot-password">Forgot your password?</Link>
               </p>
             </form>
           </motion.div>
