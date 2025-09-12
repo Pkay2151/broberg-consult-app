@@ -27,7 +27,7 @@ The Broberg Consult Ltd. web app is a professional platform showcasing the compa
 3. Start the development server: npm start
 
 ## License
-This project is licensed under Broberg Consult Ltd 2025.# Broberg Consult Ltd
+This project is licensed under Broberg Consult Ltd 2025.
 
 ## Tech Stack
 - **Frontend**: React.js
