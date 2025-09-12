@@ -7,7 +7,7 @@ Broberg Consult Ltd website is a professional platform showcasing the company's 
 - **Frontend**: React.js
 - **Backend**: Express.js
 - **Database**: PostgreSQL
-- **Deployment**: Vercel (frontend), Render/Railway (backend)
+- **Deployment**: Netlify (frontend), Render (backend)
 
 ## Team Responsibilities
 - **Hubert**: Sprint planning, code reviews, deployment approval
