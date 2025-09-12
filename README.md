@@ -1,20 +1,16 @@
-# Broberg Consult Ltd
+# Broberg Consult Ltd - Backend
 
-## About
-Broberg Consult Ltd website is a professional platform showcasing the company's engineering consultancy services, projects, and expertise.
+This branch contains the backend which powers the Broberg Consult Ltd web app, providing API endpoints for managing engineering consultancy services, projects, and user interactions. It is built with Express.js and connects to a PostgreSQL database.
+
+## Features
+- RESTful API for frontend consumption
+- Secure authentication (JWT-based by default)
+- CRUD operations for projects, services, and team member profiles
+- Database migrations and schema management
+- Automated tests for API endpoints
 
 ## Tech Stack
-- **Frontend**: React.js
-- **Backend**: Express.js
+- **Backend Framework**: Express.js
 - **Database**: PostgreSQL
-- **Deployment**: Vercel (frontend), Render/Railway (backend)
-
-## Team Responsibilities
-- **Hubert**: Sprint planning, code reviews, deployment approval
-- **Ama**: Frontend PRs, UI/UX implementation tracking
-- **Desmond**: Full-stack integration, architecture decisions
-- **Ahiati**: Database migrations, schema reviews
-- **Ferly**: Backend API development, testing
-- **Juliana**: Test coverage reports, documentation updates
-- **Nunoo**: CI/CD pipeline, deployment monitoring 
-
+- **Authentication**: JWT
+- **Deployment**: Render
