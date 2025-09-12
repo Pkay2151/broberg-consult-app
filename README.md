@@ -15,6 +15,6 @@ Broberg Consult Web App is designed to present the expertise, projects, and serv
 
 ## Tech Stack
 
-- **Frontend**: React.js
+- **Frontend Framework**: React.js
 - **Deployment**: Netlify
   
