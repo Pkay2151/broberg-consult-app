@@ -1,20 +1,20 @@
-# Broberg Consult Ltd
+# Broberg Consult Ltd — Frontend
 
-## About
-Broberg Consult Ltd website is a professional platform showcasing the company's engineering consultancy services, projects, and expertise.
+This branch contains the frontend for Broberg Consult Ltd, a professional platform for showcasing the company's engineering consultancy services, projects, and expertise.
+
+## Project Description
+
+Broberg Consult Web App is designed to present the expertise, projects, and services offered by Broberg Consult Ltd. The web app aims to provide a seamless experience for potential clients and partners to learn more about the company’s capabilities.
+
+## Features
+
+- Professional landing page highlighting company information
+- Project portfolio section
+- About the Company
+- Contact information
 
 ## Tech Stack
+
 - **Frontend**: React.js
-- **Backend**: Express.js
-- **Database**: PostgreSQL
-- **Deployment**: Vercel (frontend), Render/Railway (backend)
-
-## Team Responsibilities
-- **Hubert**: Sprint planning, code reviews, deployment approval
-- **Ama**: Frontend PRs, UI/UX implementation tracking
-- **Desmond**: Full-stack integration, architecture decisions
-- **Ahiati**: Database migrations, schema reviews
-- **Ferly**: Backend API development, testing
-- **Juliana**: Test coverage reports, documentation updates
-- **Nunoo**: CI/CD pipeline, deployment monitoring 
-
+- **Deployment**: Netlify
+  
