@@ -1,4 +1,4 @@
-# Broberg Consult Ltd - Backend
+# Broberg Consult Ltd — Backend
 
 This branch contains the backend which powers the Broberg Consult Ltd web app, providing API endpoints for managing engineering consultancy services, projects, and user interactions. It is built with Express.js and connects to a PostgreSQL database.
 
