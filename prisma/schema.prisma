@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl =env("DIRECT_URL")
+}
+
+model User {
+  id    Int    @id @default(autoincrement())
+  name  String
+  email String @unique
+  password String
+  isAdmin Boolean @default(false)
+  projects        Project[]  @relation("UserProjects")
+  employee       Employee[] @relation("UserEmployee")
+  resetToken String?
+  resetTokenExpiry DateTime?
+  createdAt DateTime @default(now())
+}
+
+model Employee {
+  id        Int      @id @default(autoincrement())
+  name      String
+  position  String
+  imageUrl  String
+  updatedAt DateTime @updatedAt
+  updatedBy   Int?
+  isApproved Boolean @default(false)
+  user        User?    @relation("UserEmployee", fields: [updatedBy], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String
+  clientName String
+  description String?
+  imageUrl    String?
+  startDate   DateTime
+  endDate     DateTime?
+  updatedBy   Int?
+  isApproved  Boolean @default(false)
+  user        User?    @relation("UserProjects", fields: [updatedBy], references: [id])
+  createdAt   DateTime @default(now())
+}

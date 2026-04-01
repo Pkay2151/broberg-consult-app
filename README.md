@@ -30,8 +30,7 @@ The Broberg Consult Ltd. web app is a professional platform showcasing the compa
 This project is licensed under Broberg Consult Ltd 2025.
 
 ## Tech Stack
-- **Frontend**: React.js
-- **Backend**: Express.js
+- **Backend Framework**: Express.js
 - **Database**: PostgreSQL
 - **Deployment**: Netlify (frontend), Render (backend)
 
